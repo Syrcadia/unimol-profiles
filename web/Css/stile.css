@@ -1,0 +1,189 @@
+@font-face {
+    font-family: "Link";
+    src: url("../Css/link-font.woff") format('woff');
+}
+
+*{
+    position: relative;
+    font-family: Link, Verdana;
+}
+
+html{
+    overflow-y: scroll;
+    background-color: #E9EBEC;
+}
+
+body{
+    background-color: #FFFFFF;
+    margin-top: 25px;
+    width: 92%;
+    min-width: 800px;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06); //aggiunge l'ombra al contorno
+}
+
+#HEADER{
+    height: 200px;
+    width: 100%;
+}
+
+#UNIMOL_LOGO{
+}
+
+#UNIMOL_LOGO img{
+    height: 120px;
+    width: 246px;
+    margin-top: 40px;
+    margin-left: 52px;
+    margin-bottom: auto;
+    float: left;
+}
+
+#PROFILES_LOGO img{
+    height: 70px;
+    width: auto;
+    margin-top: 90px;
+    margin-right: 40px;
+    float: right;
+}
+
+#TITOLO_PAGINA{
+    background-color: #0369D2;
+    background-image: url('../Images/pattern-titolo.png');
+    height: 60px;
+    width:94.75%;
+    margin: 0 auto;
+    line-height: 60px;
+    text-align: center;
+    font-size: 25px;
+    color: #FFFFFF;
+}
+
+#CONTENUTO_PAGINA{
+    background-color: #FFFFFF;
+    width:94.75%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#FOTO_DOCENTE{
+    position:absolute;
+    float:left;
+    height: 250px;
+    width: 23%;
+    text-align: center;
+}
+
+#FOTO_DOCENTE img{
+    max-height: 250px;
+    max-width: 100%;
+}
+
+#MENU_SEZIONI{
+    float: left;
+    text-align: left;
+    width: 23%;
+    margin-top:250px;
+}
+
+#MENU_SEZIONI ul li {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    margin-left: -25px;
+    list-style: none;
+    list-style-type: none;
+    border-bottom: 1px solid #DCDCDC;
+    font-size: 14px;
+    background: url('../Images/freccia-links.png') no-repeat scroll left center transparent; //aggiunge la freccia nel menu
+}
+
+#MENU_SEZIONI a{
+    color: #737373;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+#MENU_SEZIONI a:hover{
+    color: #333333;
+}
+
+
+#CONTENUTO_SEZIONE_SELEZIONATA{
+    float:right;
+    width:77%;
+}
+
+#FOOTER{
+    clear: both;
+    min-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+#LINK_UTILI{
+    height: auto;
+    width: auto;
+    padding-right: 15px;
+    border-right: 1px dashed black;
+    display: inline-block;
+}
+
+#CONTATTI{
+    height: auto;
+    width: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-right: 1px dashed black;
+    display: inline-block;
+}
+
+#SEGNALAZIONI{
+    height: auto;
+    width: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-right: 1px dashed black;
+    display: inline-block;
+}
+
+#ALTRO{
+    height: auto;
+    width: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    display: inline-block;
+}
+
+
+
+
+/*@media screen and (max-width: 900px){
+    body{
+        background-color: #E9EBEC;
+    }
+    #header{
+        height: auto;
+        width: auto;
+        background-color: #FFFFFF;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #TITOLO_PAGINA{
+        height: auto;
+        width: auto;
+        background-color: #FFFFFF;
+        color: black;
+    }
+    #CONTENUTO_PAGINA{
+        background-color: #FFFFFF;
+        height: auto;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}*/

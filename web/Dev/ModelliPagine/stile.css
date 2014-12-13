@@ -1,0 +1,48 @@
+body{
+    background-color: #E9EBEC;
+}
+
+#div_centrale{
+    background-color: #FFFFFF;
+    width: 1000px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+#header{
+    height: 270px;
+    width: 1000px;
+    background-color: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#UNIMOL_LOGO img{
+    height: 150px;
+    width: auto;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-bottom: auto;
+    float: left;
+}
+
+#PROFILES_LOGO img{
+    height: 150px;
+    width: auto;
+    margin-top: 25px;
+    margin-bottom: auto;
+    float: right;
+}
+
+#TITOLO_PAGINA{
+    background-color: #0369D2;
+    height: 45px;
+    width: 900px;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+    color: #FFFFFF;
+    margin-top: -45px;
+    margin-left: auto;
+    margin-right: auto;
+}
