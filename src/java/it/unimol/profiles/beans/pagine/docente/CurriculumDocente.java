@@ -5,36 +5,36 @@ package it.unimol.profiles.beans.pagine.docente;
  * @author Stefano
  */
 public class CurriculumDocente {
-    
-    private String curriculumHtml;
+
+    private String htmlLink;
     private String fileLink;
 
     public CurriculumDocente() {
 
     }
 
-    public String getCurriculumHtml() {
-        return curriculumHtml;
+    public String getHtmlLink() {
+        return htmlLink;
     }
 
-    public void setCurriculumHtml(String curriculumHtml) {
-        this.curriculumHtml = curriculumHtml;
+    public void setHtmlLink(String curriculumHtml) {
+        this.htmlLink = curriculumHtml;
     }
-    
-    public String getFileLink() {
+
+    public String getPdfLink() {
         return fileLink;
     }
 
-    public void setFileLink(String fileLink) {
+    public void setPdfLink(String fileLink) {
         this.fileLink = fileLink;
     }
-    
+
     public static CurriculumDocente getStub() {
         CurriculumDocente stub = new CurriculumDocente();
-        
-        stub.setFileLink("Risorse/fausto_fasano_1/files/curriculum/faustofasano_it.pdf");
-        
-        stub.setCurriculumHtml("<div>\n"
+
+        stub.setPdfLink("Risorse/fausto_fasano_1/files/curriculum/curriculum_fausto_fasano.pdf");
+
+        stub.setHtmlLink("<div>\n"
                 + "	Il dott. Fausto Fasano e&#39; nato a Salerno il 20 Febbraio 1975 e risiede a Campobasso (CB).</div>\n"
                 + "<div>\n"
                 + "	Dal 30 Dicembre 2008 e&#39; affiliato al Dipartimento di Scienze e Tecnologie per l&#39;Ambiente e il Territorio della Facolta&#39; di Scienze Matematiche Fisiche e Naturali dell&#39;Universita&#39; degli Studi del Molise, dove &Euml; attualmente Ricercatore non confermato per il SSD INF/01 (Informatica) e dove insegna Ingegneria del Software e Sistemi Operativi.</div>\n"

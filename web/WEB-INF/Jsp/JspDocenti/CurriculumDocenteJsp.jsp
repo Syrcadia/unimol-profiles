@@ -18,8 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
+            <%                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
             %>
         </title>
     </head>
@@ -37,18 +36,28 @@
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (curriculumDocente != null) {
                         out.print(""
-                                + "<div id='CURRICULUM_DOCENTE'>"
-                                + "<div id='LINK_FILE'>"
-                                + "<a href='" + curriculumDocente.getFileLink() + "'>Scarica PDF</a>"
-                                + "</div>"
-                                + "<div id='TESTO_CURRICULUM'>"
-                                + curriculumDocente.getCurriculumHtml()
-                                + "</div>"
-                                + "</div>");
+                                + "<div id='CURRICULUM_DOCENTE'>");
+                        if (curriculumDocente.getPdfLink() != null) {
+                            out.print(""
+                                    + "<div id='LINK_FILE'>"
+                                    + "<a href='" + curriculumDocente.getPdfLink()+ "'>Scarica PDF</a>"
+                                    + "</div>");
+                        }
+                        if (curriculumDocente.getHtmlLink() != null) {
+                            out.print(""
+                                    + "<div id='TESTO_CURRICULUM'>");
+                            String curriculumHtmlLink = curriculumHtmlLink = "../../../" + curriculumDocente.getHtmlLink();
+                %>
+                <jsp:include page='<%=curriculumHtmlLink%>' flush='true'/>
+                <%
+                            out.print(""
+                                    + "</div>");
+                        }
+                        out.print("</div>");
                     } else {
                         out.print(""
                                 + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
-                                + "Non è presente alcun curriculum per il Prof. "+docente.getNome()+" "+docente.getCognome()
+                                + "Non è presente alcun curriculum per il Prof. " + docente.getNome() + " " + docente.getCognome()
                                 + "</div>");
                     }
                 %>

@@ -34,10 +34,11 @@ public class CurriculumDocenteServlet extends SezioneServlet {
         Docente docente = this.getDocenteDallaUrl(request);
 
         try {
-            CurriculumDocente curriculumDocente = ManagerDocenti.getInstance().getCurriculumDocente(docente);
-            request.setAttribute("curriculum_docente", curriculumDocente);
+            
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
+            CurriculumDocente curriculumDocente = ManagerDocenti.getInstance().getCurriculumDocente(docente, getServletConfig().getServletContext().getRealPath(""));
+            request.setAttribute("curriculum_docente", curriculumDocente);       
             
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));

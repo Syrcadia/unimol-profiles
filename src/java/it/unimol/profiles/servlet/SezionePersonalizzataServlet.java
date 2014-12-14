@@ -37,10 +37,10 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
         Docente docente = this.getDocenteDallaUrl(request);
         
         try {
-            SezionePersonalizzata sezionePersonalizzata = ManagerDocenti.getInstance().getSezionePersonalizzata(docente, (int) Integer.parseInt(request.getParameter("id_sezione")));
-            request.setAttribute("sezione_personalizzata_docente", sezionePersonalizzata);
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
+            SezionePersonalizzata sezionePersonalizzata = ManagerDocenti.getInstance().getSezionePersonalizzata(docente, (int) Integer.parseInt(request.getParameter("id_sezione")));
+            request.setAttribute("sezione_personalizzata_docente", sezionePersonalizzata);
             
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));

@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -92,6 +93,7 @@ public class ManagerDocenti {
             statement.close(); //queste due istruzioni!!!
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
         } finally { //il contenuto del finally è fondamentale per il funzionamento del connection pool
             if (connection != null) {
                 try {
@@ -107,7 +109,7 @@ public class ManagerDocenti {
     public boolean esisteDocente(Docente docente) {
         Connection connection = null;
         boolean esisteDocente = false;
-        
+
         try {
             connection = ConnectionPool.getInstance().getConnection();
             Statement statement = connection.createStatement();
@@ -119,7 +121,7 @@ public class ManagerDocenti {
                     + "id_docente =" + docente.getId() + " "
                     + "AND nome ='" + docente.getNome() + "' "
                     + "AND cognome ='" + docente.getCognome() + "'");
-            
+
             esisteDocente = resultSet.next();
 
             resultSet.close();
@@ -127,7 +129,7 @@ public class ManagerDocenti {
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
-        } finally { 
+        } finally {
             if (connection != null) {
                 try {
                     connection.close();
@@ -140,11 +142,11 @@ public class ManagerDocenti {
     }
 
     public InformazioniGeneraliDocente getInfoGeneraliDocente(Docente docente) throws DocenteInesistenteException {
-        
-        if (!esisteDocente(docente)){
+
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         InformazioniGeneraliDocente informazioniGeneraliDocente = new InformazioniGeneraliDocente();
 
         Connection connection = null;
@@ -200,18 +202,18 @@ public class ManagerDocenti {
     }
 
     public void setInfoGeneraliDocente(Docente docente, InformazioniGeneraliDocente informazioniGeneraliDocente) throws DocenteInesistenteException {
-        if (!esisteDocente(docente)){
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
         //TODO
     }
 
-    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException{
+    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException {
 
-        if (!esisteDocente(docente)){
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         InsegnamentiDocente insegnamentiDocente = null;
         Connection connection = null;
         try {
@@ -232,8 +234,8 @@ public class ManagerDocenti {
             } else {
                 throw new RisorsaNonPresenteException();
             }
-            resultSet.close(); 
-            statement.close(); 
+            resultSet.close();
+            statement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
@@ -253,23 +255,40 @@ public class ManagerDocenti {
 
     }
 
-    public CurriculumDocente getCurriculumDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
-        if (!esisteDocente(docente)){
+    public CurriculumDocente getCurriculumDocente(Docente docente, String contextPath) throws DocenteInesistenteException, RisorsaNonPresenteException {
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
-        return StubFactory.getCurriculumDocenteStub();
+
+        CurriculumDocente curriculumDocente = new CurriculumDocente();
+        String percorsoCurriculumHtml = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/testi/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".html";
+        String percorsoCurriculumPdf = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/files/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".pdf";
+
+        File curriculumHtml = new File(contextPath + "/" + percorsoCurriculumHtml);
+        File curriculumPdf = new File(contextPath + "/" + percorsoCurriculumPdf);
+
+        if (!(curriculumHtml.isFile() || curriculumPdf.isFile())) {
+            throw new RisorsaNonPresenteException();
+        }
+        if (curriculumHtml.isFile()) {
+            curriculumDocente.setHtmlLink(percorsoCurriculumHtml);
+        }
+        if (curriculumPdf.isFile()) {
+            curriculumDocente.setPdfLink(percorsoCurriculumPdf);
+        }
+
+        return curriculumDocente;
     }
 
     public void setCurriculumDocente(Docente docente, CurriculumDocente curriculumDocente) throws DocenteInesistenteException {
         //TODO
     }
 
-    public PubblicazioniDocente getPubblicazioniDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
-        if (!esisteDocente(docente)){
+    public PubblicazioniDocente getPubblicazioniDocente(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException {
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         return StubFactory.getPubblicazioniDocenteStub();
     }
 
@@ -277,11 +296,11 @@ public class ManagerDocenti {
         //TODO inserire nel db
     }
 
-    public RicevimentoStudenti getRicevimentoStudenti(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
-        if (!esisteDocente(docente)){
+    public RicevimentoStudenti getRicevimentoStudenti(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException {
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         return StubFactory.getRicevimentoStudentiStub();
     }
 
@@ -289,11 +308,11 @@ public class ManagerDocenti {
         return StubFactory.getElencoSezioniPersonalizzateStub();
     }
 
-    public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteInesistenteException,RisorsaNonPresenteException {
-        if (!esisteDocente(docente)){
+    public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteInesistenteException, RisorsaNonPresenteException {
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         return null;
     }
 
@@ -301,12 +320,12 @@ public class ManagerDocenti {
         //inserire nel db;
     }
 
-    public String getPercorsoFotoDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException { //ritorna la posizione della foto
-        
-        if (!esisteDocente(docente)){
+    public String getPercorsoFotoDocente(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException { //ritorna la posizione della foto
+
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         Connection connection = null;
         String nomeFotoProfilo = null;
         String fotoPath;
@@ -358,15 +377,9 @@ public class ManagerDocenti {
     }
 
     public void eliminaDocente(Docente docente) throws DocenteInesistenteException {
-        if (!esisteDocente(docente)){
+        if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
         //todo eliminare il professore in questione dal db
-    }
-
-    public static String readFile(String path, Charset encoding)
-            throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
     }
 }

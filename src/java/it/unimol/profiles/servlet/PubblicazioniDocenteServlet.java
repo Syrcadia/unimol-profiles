@@ -37,10 +37,11 @@ public class PubblicazioniDocenteServlet extends SezioneServlet {
         Docente docente = this.getDocenteDallaUrl(request);
         
         try {
-            PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente);
-            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);
+            
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
+            PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente);
+            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);    
             
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));

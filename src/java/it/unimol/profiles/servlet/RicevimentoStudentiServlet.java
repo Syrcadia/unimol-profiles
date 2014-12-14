@@ -34,12 +34,11 @@ public class RicevimentoStudentiServlet extends SezioneServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Docente docente = this.getDocenteDallaUrl(request);
-        try {
-            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente);
-            request.setAttribute("ricevimento_studenti", ricevimentoStudenti);
+        try {            
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-
+            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente);
+            request.setAttribute("ricevimento_studenti", ricevimentoStudenti);
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
