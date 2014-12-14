@@ -8,7 +8,7 @@
 <%@page import="it.unimol.profiles.ManagerDocenti"%>
 <%@page import="it.unimol.profiles.beans.pagine.docente.SezionePersonalizzata"%>
 <%
-    ElencoSezioniPersonalizzate elencoSezioniPersonalizzate = ManagerDocenti.getInstance().getElencoSezioniPersonalizzate((Docente) request.getAttribute("docente"));
+    ElencoSezioniPersonalizzate elencoSezioniPersonalizzate = (ElencoSezioniPersonalizzate) request.getAttribute("elenco_sezioni_personalizzate");
 %>
 <div id="MENU_SEZIONI">
     <ul>

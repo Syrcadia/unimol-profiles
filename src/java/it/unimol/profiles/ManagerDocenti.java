@@ -3,7 +3,7 @@ package it.unimol.profiles;
 import it.unimol.profiles.beans.utils.*;
 import it.unimol.profiles.beans.pagine.*;
 import it.unimol.profiles.beans.pagine.docente.*;
-import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import it.unimol.profiles.stubs.StubFactory;
 import java.io.File;
@@ -139,10 +139,10 @@ public class ManagerDocenti {
         return esisteDocente;
     }
 
-    public InformazioniGeneraliDocente getInfoGeneraliDocente(Docente docente) throws DocenteNonTrovatoException {
+    public InformazioniGeneraliDocente getInfoGeneraliDocente(Docente docente) throws DocenteInesistenteException {
         
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         InformazioniGeneraliDocente informazioniGeneraliDocente = new InformazioniGeneraliDocente();
@@ -199,17 +199,17 @@ public class ManagerDocenti {
         return informazioniGeneraliDocente;
     }
 
-    public void setInfoGeneraliDocente(Docente docente, InformazioniGeneraliDocente informazioniGeneraliDocente) throws DocenteNonTrovatoException {
+    public void setInfoGeneraliDocente(Docente docente, InformazioniGeneraliDocente informazioniGeneraliDocente) throws DocenteInesistenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         //TODO
     }
 
-    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws DocenteNonTrovatoException,RisorsaNonPresenteException{
+    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException{
 
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         InsegnamentiDocente insegnamentiDocente = null;
@@ -253,58 +253,58 @@ public class ManagerDocenti {
 
     }
 
-    public CurriculumDocente getCurriculumDocente(Docente docente) throws DocenteNonTrovatoException,RisorsaNonPresenteException {
+    public CurriculumDocente getCurriculumDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         return StubFactory.getCurriculumDocenteStub();
     }
 
-    public void setCurriculumDocente(Docente docente, CurriculumDocente curriculumDocente) throws DocenteNonTrovatoException {
+    public void setCurriculumDocente(Docente docente, CurriculumDocente curriculumDocente) throws DocenteInesistenteException {
         //TODO
     }
 
-    public PubblicazioniDocente getPubblicazioniDocente(Docente docente) throws DocenteNonTrovatoException,RisorsaNonPresenteException {
+    public PubblicazioniDocente getPubblicazioniDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         return StubFactory.getPubblicazioniDocenteStub();
     }
 
-    public void setPubblicazioniDocente(Docente docente, PubblicazioniDocente PubblicazioniDocente) throws DocenteNonTrovatoException {
+    public void setPubblicazioniDocente(Docente docente, PubblicazioniDocente PubblicazioniDocente) throws DocenteInesistenteException {
         //TODO inserire nel db
     }
 
-    public RicevimentoStudenti getRicevimentoStudenti(Docente docente) throws DocenteNonTrovatoException,RisorsaNonPresenteException {
+    public RicevimentoStudenti getRicevimentoStudenti(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         return StubFactory.getRicevimentoStudentiStub();
     }
 
-    public ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteNonTrovatoException {
+    public ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteInesistenteException {
         return StubFactory.getElencoSezioniPersonalizzateStub();
     }
 
-    public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteNonTrovatoException,RisorsaNonPresenteException {
+    public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteInesistenteException,RisorsaNonPresenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         return null;
     }
 
-    public void setSezionePersonalizzata(Docente docente, SezionePersonalizzata sezionePersonalizzata) throws DocenteNonTrovatoException {
+    public void setSezionePersonalizzata(Docente docente, SezionePersonalizzata sezionePersonalizzata) throws DocenteInesistenteException {
         //inserire nel db;
     }
 
-    public String getPercorsoFotoDocente(Docente docente) throws DocenteNonTrovatoException,RisorsaNonPresenteException { //ritorna la posizione della foto
+    public String getPercorsoFotoDocente(Docente docente) throws DocenteInesistenteException,RisorsaNonPresenteException { //ritorna la posizione della foto
         
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         
         Connection connection = null;
@@ -357,9 +357,9 @@ public class ManagerDocenti {
         //todo inserire il professore in questione nel db
     }
 
-    public void eliminaDocente(Docente docente) throws DocenteNonTrovatoException {
+    public void eliminaDocente(Docente docente) throws DocenteInesistenteException {
         if (!esisteDocente(docente)){
-            throw new DocenteNonTrovatoException();
+            throw new DocenteInesistenteException();
         }
         //todo eliminare il professore in questione dal db
     }

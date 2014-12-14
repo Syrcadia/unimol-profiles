@@ -3,7 +3,7 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.SezionePersonalizzata;
 import it.unimol.profiles.beans.utils.Docente;
-import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Stefano
  */
 @WebServlet(name = "SezionePersonalizzata", urlPatterns = {"/SezionePersonalizzata"})
-public class SezionePersonalizzataServlet extends HttpServlet {
+public class SezionePersonalizzataServlet extends SezioneDocenteServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +34,16 @@ public class SezionePersonalizzataServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Docente docente = new Docente();
-        docente.setId(((String) request.getParameter("id")));
-        docente.setNome(((String) request.getParameter("nome")));
-        docente.setCognome(((String) request.getParameter("cognome")));
+        Docente docente = this.getDocenteDallaUrl(request);
+        
         try {
             SezionePersonalizzata sezionePersonalizzata = ManagerDocenti.getInstance().getSezionePersonalizzata(docente, (int) Integer.parseInt(request.getParameter("id_sezione")));
             request.setAttribute("sezione_personalizzata_docente", sezionePersonalizzata);
-
-        } catch (DocenteNonTrovatoException ex) {
-            response.sendError(404, "Il docente richiesto "
-                    + "(nome = " + docente.getNome() + ", "
-                    + "cognome = " + docente.getCognome() + ", "
-                    + "id = " + docente.getId() + ") "
-                    + "non è presente nel database");
+            request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
+            request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
+            
+        } catch (DocenteInesistenteException ex) {
+            response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("sezione_personalizzata_docente", null);
         } finally {

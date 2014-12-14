@@ -8,6 +8,6 @@
 <%@page import="it.unimol.profiles.ManagerDocenti"%>
 <div id="FOTO_DOCENTE">
     <img src="<%
-        out.print(ManagerDocenti.getInstance().getPercorsoFotoDocente((Docente) request.getAttribute("docente"))); %>" alt="Foto di <% out.print(((Docente) request.getAttribute("docente")).getNome() + " " + ((Docente) request.getAttribute("docente")).getCognome());
+        out.print((String) request.getAttribute("percorso_foto_profilo")); %>" alt="Foto di <% out.print(((Docente) request.getAttribute("docente")).getNome() + " " + ((Docente) request.getAttribute("docente")).getCognome());
          %>"/>
 </div>

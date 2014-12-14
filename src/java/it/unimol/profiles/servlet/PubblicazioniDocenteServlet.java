@@ -3,7 +3,7 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.PubblicazioniDocente;
 import it.unimol.profiles.beans.utils.Docente;
-import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Stefano
  */
 @WebServlet(name = "PubblicazioniDocente", urlPatterns = {"/PubblicazioniDocente"})
-public class PubblicazioniDocenteServlet extends HttpServlet {
+public class PubblicazioniDocenteServlet extends SezioneDocenteServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,22 +33,20 @@ public class PubblicazioniDocenteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Docente docente = new Docente();
-        docente.setId(((String) request.getParameter("id")));
-        docente.setNome(((String) request.getParameter("nome")));
-        docente.setCognome(((String) request.getParameter("cognome")));
+        
+        Docente docente = this.getDocenteDallaUrl(request);
+        
         try {
             PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente);
-            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);   
-        } catch (DocenteNonTrovatoException ex) {
-            response.sendError(404, "Il docente richiesto "
-                    + "(nome = " + docente.getNome() + ", "
-                    + "cognome = " + docente.getCognome() + ", "
-                    + "id = " + docente.getId() + ") "
-                    + "non è presente nel database");
+            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);
+            request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
+            request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
+            
+        } catch (DocenteInesistenteException ex) {
+            response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("pubblicazioni_docente", null);
-        } finally{
+        } finally {
             request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp");
             dispatcher.forward(request, response);

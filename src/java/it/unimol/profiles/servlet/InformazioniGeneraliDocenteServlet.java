@@ -3,7 +3,7 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente;
 import it.unimol.profiles.beans.utils.Docente;
-import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Stefano
  */
 @WebServlet(name = "InformazioniGeneraliDocente", urlPatterns = {"/InformazioniGeneraliDocente"})
-public class InformazioniGeneraliDocenteServlet extends HttpServlet {
+public class InformazioniGeneraliDocenteServlet extends SezioneDocenteServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,26 +33,19 @@ public class InformazioniGeneraliDocenteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Docente docente = new Docente();
-        docente.setId(((String) request.getParameter("id")));
-        docente.setNome(((String) request.getParameter("nome")));
-        docente.setCognome(((String) request.getParameter("cognome")));
-
-        InformazioniGeneraliDocente informazioniGeneraliDocente;
-
+        Docente docente = this.getDocenteDallaUrl(request);
+       
         try {
-            informazioniGeneraliDocente = ManagerDocenti.getInstance().getInfoGeneraliDocente(docente);
+            InformazioniGeneraliDocente informazioniGeneraliDocente = ManagerDocenti.getInstance().getInfoGeneraliDocente(docente);
             request.setAttribute("informazioni_generali_docente", informazioniGeneraliDocente);
+            request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
+            request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
             request.setAttribute("docente", docente);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/InformazioniGeneraliDocenteJsp.jsp");
             dispatcher.forward(request, response);
-        } catch (DocenteNonTrovatoException ex) {
-            response.sendError(404, "Il docente richiesto "
-                    + "(nome = " + docente.getNome() + ", "
-                    + "cognome = " + docente.getCognome() + ", "
-                    + "id = " + docente.getId() + ") "
-                    + "non è presente nel database");
+        } catch (DocenteInesistenteException ex) {
+            response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         }
 
     }
