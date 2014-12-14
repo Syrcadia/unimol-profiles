@@ -34,13 +34,19 @@
             <%@include file="FotoDocente.jsp" %>
             <%@include file="MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
-                <div id="RICEVIMENTO_STUDENTI">
-                    <%
-                        out.print(ricevimentoStudenti);
-                    %>
-                </div>
+                <%  if (ricevimentoStudenti != null) {
+                        out.print(""
+                                + "<div id='RICEVIMENTO_STUDENTI'>"
+                                + ricevimentoStudenti
+                                + "</div>");
+                    } else {
+                        out.print(""
+                                + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
+                                + "Non è ancora presente l'orario di ricevimento del Prof. "+docente.getNome()+" "+docente.getCognome()
+                                + "</div>");
+                    }
+                %>
             </div>
-
         </div>
         <%@include file="../../Html/Footer.html" %>
     </body>

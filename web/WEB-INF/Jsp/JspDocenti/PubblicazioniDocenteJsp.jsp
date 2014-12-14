@@ -22,8 +22,15 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://bibtex-js.googlecode.com/svn/trunk/src/bibtex_js.js"></script>
         -->
-        <script type="text/javascript" src="Javascript/jquery.min.js"></script>
-        <script type="text/javascript" src="Javascript/bibtex_js.js"></script>
+        <%
+            if (pubblicazioniDocente != null) {
+                out.write(""
+                        + "<script type='text/javascript' src='Javascript/jquery.min.js'></script>"
+                        + "<script type='text/javascript' src='Javascript/bibtex_js.js'></script>"
+                );
+            }
+        %>
+
         <title>
             <%
                 out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
@@ -42,12 +49,32 @@
             <%@include file="FotoDocente.jsp" %>
             <%@include file="MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
-                <div id="PUBBLICAZIONI">
+                <%  if (pubblicazioniDocente != null) {
+                        out.print(""
+                                + "<div id='PUBBLICAZIONI'>"
+                                + "<textarea id='bibtex_input' style='display:none;'>");
+                %>
+                                <jsp:include page='<%=bibTexLink%>' flush='true'/>
+                <% out.print(""
+                                + "</textarea>"
+                                + "<div id='bibtex_display'>"
+                                + "</div>"
+                                + "</div>"
+                        );
+                    } else {
+                        out.print(""
+                                + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
+                                + "Non sono presenti pubblicazioni per il Prof. " + docente.getNome() + " " + docente.getCognome()
+                                + "</div>");
+                    }
+                %>
 
-                    <textarea id="bibtex_input" style="display:none;">
-                        <jsp:include page="<%=bibTexLink%>" flush="true"/>
+                <div id='PUBBLICAZIONI'>
+
+                    <textarea id='bibtex_input' style='display:none;'>
+                        <jsp:include page='<%=bibTexLink%>' flush='true'/>
                     </textarea>
-                    <div id="bibtex_display">
+                    <div id='bibtex_display'>
 
                     </div>
 

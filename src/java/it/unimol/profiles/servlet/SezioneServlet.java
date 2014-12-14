@@ -5,8 +5,6 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.beans.utils.ElencoSezioniPersonalizzate;
 import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Stefano
  */
-public class SezioneDocenteServlet extends HttpServlet {
+public abstract class SezioneServlet extends HttpServlet {
 
     public static final String PERCORSO_FOTO_PROFILO_DEFAULT = "Images/profilo-default.png";
 
