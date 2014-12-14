@@ -34,13 +34,19 @@ public class Docente {
         this.id = email;
     }
 
+    public String getNomeCartella() {
+        return this.getNome().toLowerCase() + "_"
+             + this.getCognome().toLowerCase() + "_"
+             + this.getId();
+    }
+
     public static Docente getStub() {
 
         Docente stub = new Docente();
         stub.setNome("Fausto");
         stub.setCognome("Fasano");
         stub.setId("faufas");
-        
+
         return stub;
     }
 

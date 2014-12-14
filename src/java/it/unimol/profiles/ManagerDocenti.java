@@ -125,27 +125,26 @@ public class ManagerDocenti {
             informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
             informazioniGeneraliDocente.setDipartimento(resultSet.getString("dipartimento"));
             informazioniGeneraliDocente.setRuolo(resultSet.getString("ruolo"));
-            
+
             resultSet = statement.executeQuery(""
                     + "SELECT email "
                     + "FROM email "
                     + "WHERE id_docente= " + docente.getId());
             ArrayList<String> emails = new ArrayList<>();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 emails.add(resultSet.getString("email"));
             }
             informazioniGeneraliDocente.setEmail(emails);
-            
+
             resultSet = statement.executeQuery(""
                     + "SELECT num_telefono "
                     + "FROM telefono "
                     + "WHERE id_docente= " + docente.getId());
             ArrayList<String> telefoni = new ArrayList<>();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 telefoni.add(resultSet.getString("num_telefono"));
             }
             informazioniGeneraliDocente.setTelefono(telefoni);
-                        
 
             resultSet.close(); //non dimenticare 
             statement.close(); //queste due istruzioni!!!
@@ -246,7 +245,43 @@ public class ManagerDocenti {
 
     public String getFotoDocente(Docente docente) throws Exception { //ritorna la posizione della foto
 
-        return StubFactory.getFotoDocenteStub();
+        Connection connection = null;
+        String nomeFotoProfilo = null;
+        String fotoPath;
+
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(""
+                    + "SELECT nome_foto_profilo "
+                    + "FROM docenti "
+                    + "WHERE id_docente = " + docente.getId());
+            resultSet.next();
+
+            nomeFotoProfilo = resultSet.getString("nome_foto_profilo");
+
+            resultSet.close(); //non dimenticare 
+            statement.close(); //queste due istruzioni!!!
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
+        } finally { //il contenuto del finally è fondamentale per il funzionamento del connection pool
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception ignore) {
+                }
+            }
+        }
+
+        if (nomeFotoProfilo == null) {
+            return "Images/profilo-default.png";
+        } else {
+            fotoPath = "Risorse/"
+                    + docente.getNomeCartella()
+                    + "/foto/foto_profilo/"
+                    + nomeFotoProfilo;
+        }
+        return fotoPath;
     }
 
     private void inserisciFile(File file, String directory) {
@@ -259,7 +294,7 @@ public class ManagerDocenti {
         //todo inserire il professore in questione nel db
     }
 
-    public void eliminaDocente() {
+    public void eliminaDocente(Docente docente) {
         //todo eliminare il professore in questione dal db
     }
 
