@@ -3,6 +3,8 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.CurriculumDocente;
 import it.unimol.profiles.beans.utils.Docente;
+import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CurriculumDocente", urlPatterns = {"/CurriculumDocente"})
 public class CurriculumDocenteServlet extends HttpServlet {
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,18 +37,24 @@ public class CurriculumDocenteServlet extends HttpServlet {
         docente.setNome(((String) request.getParameter("nome")));
         docente.setCognome(((String) request.getParameter("cognome")));
         CurriculumDocente curriculumDocente;
-        
+
         try {
             curriculumDocente = ManagerDocenti.getInstance().getCurriculumDocente(docente);
             request.setAttribute("curriculum_docente", curriculumDocente);
+            
+        } catch (DocenteNonTrovatoException ex) {
+            response.sendError(404, "Il docente richiesto "
+                    + "(nome = " + docente.getNome() + ", "
+                    + "cognome = " + docente.getCognome() + ", "
+                    + "id = " + docente.getId() + ") "
+                    + "non è presente nel database");
+        } catch (RisorsaNonPresenteException ex) {
+            request.setAttribute("curriculum_docente", null);
+        } finally{
             request.setAttribute("docente", docente);
-
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/CurriculumDocenteJsp.jsp");
             dispatcher.forward(request, response);
-        } catch (Exception ex) {
-            response.sendError(404,"Mi dispiace,\nNessun docente corrisponde ai parametri specificati");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

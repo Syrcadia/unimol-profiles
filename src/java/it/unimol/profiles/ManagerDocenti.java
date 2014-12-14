@@ -115,15 +115,12 @@ public class ManagerDocenti {
             resultSet = statement.executeQuery(""
                     + "SELECT * "
                     + "FROM docenti "
-                    + "WHERE id_docente= " + docente.getId()
-                    + "AND nome='" + docente.getNome() + "' "
-                    + "AND cognome='" + docente.getCognome() + "'");
-
-            if (resultSet.next()) {
-                esisteDocente = true;
-            } else {
-                esisteDocente = false;
-            }
+                    + "WHERE "
+                    + "id_docente =" + docente.getId() + " "
+                    + "AND nome ='" + docente.getNome() + "' "
+                    + "AND cognome ='" + docente.getCognome() + "'");
+            
+            esisteDocente = resultSet.next();
 
             resultSet.close();
             statement.close();
@@ -159,7 +156,7 @@ public class ManagerDocenti {
             resultSet = statement.executeQuery(""
                     + "SELECT nome, cognome, dipartimento, ruolo "
                     + "FROM docenti "
-                    + "WHERE id_docente= " + docente.getId());
+                    + "WHERE id_docente = " + docente.getId());
             resultSet.next();
             informazioniGeneraliDocente.setNome(resultSet.getString("nome"));
             informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
@@ -169,7 +166,7 @@ public class ManagerDocenti {
             resultSet = statement.executeQuery(""
                     + "SELECT email "
                     + "FROM email "
-                    + "WHERE id_docente= " + docente.getId());
+                    + "WHERE id_docente = " + docente.getId());
             ArrayList<String> emails = new ArrayList<>();
             while (resultSet.next()) {
                 emails.add(resultSet.getString("email"));
@@ -179,7 +176,7 @@ public class ManagerDocenti {
             resultSet = statement.executeQuery(""
                     + "SELECT num_telefono "
                     + "FROM telefono "
-                    + "WHERE id_docente= " + docente.getId());
+                    + "WHERE id_docente = " + docente.getId());
             ArrayList<String> telefoni = new ArrayList<>();
             while (resultSet.next()) {
                 telefoni.add(resultSet.getString("num_telefono"));

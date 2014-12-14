@@ -3,7 +3,10 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente;
 import it.unimol.profiles.beans.utils.Docente;
+import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,8 +47,12 @@ public class InformazioniGeneraliDocenteServlet extends HttpServlet {
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/InformazioniGeneraliDocenteJsp.jsp");
             dispatcher.forward(request, response);
-        } catch (Exception ex) {
-            response.sendError(404,"Mi dispiace,\nNessun docente corrisponde ai parametri specificati");
+        } catch (DocenteNonTrovatoException ex) {
+            response.sendError(404, "Il docente richiesto "
+                    + "(nome = " + docente.getNome() + ", "
+                    + "cognome = " + docente.getCognome() + ", "
+                    + "id = " + docente.getId() + ") "
+                    + "non è presente nel database");
         }
 
     }

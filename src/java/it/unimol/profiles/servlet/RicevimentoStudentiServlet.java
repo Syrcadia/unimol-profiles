@@ -3,7 +3,11 @@ package it.unimol.profiles.servlet;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.RicevimentoStudenti;
 import it.unimol.profiles.beans.utils.Docente;
+import it.unimol.profiles.exceptions.DocenteNonTrovatoException;
+import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +33,6 @@ public class RicevimentoStudentiServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Docente docente = new Docente();
         docente.setId(((String) request.getParameter("id")));
         docente.setNome(((String) request.getParameter("nome")));
@@ -37,12 +40,19 @@ public class RicevimentoStudentiServlet extends HttpServlet {
         try {
             RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente);
             request.setAttribute("ricevimento_studenti", ricevimentoStudenti);
-            request.setAttribute("docente", docente);
 
+        } catch (DocenteNonTrovatoException ex) {
+            response.sendError(404, "Il docente richiesto "
+                    + "(nome = " + docente.getNome() + ", "
+                    + "cognome = " + docente.getCognome() + ", "
+                    + "id = " + docente.getId() + ") "
+                    + "non è presente nel database");
+        } catch (RisorsaNonPresenteException ex) {
+            request.setAttribute("ricevimento_studenti", null);
+        } finally {
+            request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/RicevimentoStudentiJsp.jsp");
             dispatcher.forward(request, response);
-        } catch (Exception ex) {
-            response.sendError(404,"Mi dispiace,\nNessun docente corrisponde ai parametri specificati");
         }
     }
 
