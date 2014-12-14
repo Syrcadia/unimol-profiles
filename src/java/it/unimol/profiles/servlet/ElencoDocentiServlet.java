@@ -30,7 +30,7 @@ public class ElencoDocentiServlet extends HttpServlet {
             throws ServletException, IOException {
         
         ElencoDocenti elencoDocenti;
-        elencoDocenti = ManagerDocenti.getInstance().getListaDocenti();
+        elencoDocenti = ManagerDocenti.getInstance().getElencoDocenti();
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/ElencoDocentiJsp.jsp");
         request.setAttribute("elenco_docenti", elencoDocenti);
