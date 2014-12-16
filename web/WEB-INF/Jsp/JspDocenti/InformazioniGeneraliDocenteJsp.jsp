@@ -3,7 +3,7 @@
     Created on : 26-nov-2014, 12.21.54
     Author     : Stefano
 --%>
-
+<%@page import="it.unimol.profiles.beans.utils.Docente"%>
 <%@page import="it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
