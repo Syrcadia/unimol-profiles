@@ -21,6 +21,7 @@ public abstract class SezioneServlet extends HttpServlet {
         docente.setId(((String) request.getParameter("id")));
         docente.setNome(((String) request.getParameter("nome")));
         docente.setCognome(((String) request.getParameter("cognome")));
+        docente.setSesso(((String) request.getParameter("s")));
         return docente;
     }
 

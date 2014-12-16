@@ -35,9 +35,9 @@
                     <ul>
                         <%
                             for (int i = 0; i < elencoDocenti.getListaProfessoriOrdinari().size(); i++) {
-                                nomeDocente = elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome()+ " " + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome();
-                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome();
-                                out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
+                                nomeDocente = elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome() + " " + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome();
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getId() + "&s=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getSesso() + "&nome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome();
+                                out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                             }
                         %>
                     </ul>
@@ -48,8 +48,8 @@
                         <%
                             for (int i = 0; i < elencoDocenti.getListaProfessoriAssociati().size(); i++) {
                                 nomeDocente = elencoDocenti.getListaProfessoriAssociati().get(i).getCognome() + " " + elencoDocenti.getListaProfessoriAssociati().get(i).getNome();
-                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriAssociati().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getCognome();
-                                out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriAssociati().get(i).getId() + "&s=" + elencoDocenti.getListaProfessoriAssociati().get(i).getSesso() + "&nome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getCognome();
+                                out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                             }
                         %>
                     </ul>
@@ -60,8 +60,8 @@
                         <%
                             for (int i = 0; i < elencoDocenti.getListaRicercatori().size(); i++) {
                                 nomeDocente = elencoDocenti.getListaRicercatori().get(i).getCognome() + " " + elencoDocenti.getListaRicercatori().get(i).getNome();
-                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatori().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatori().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatori().get(i).getCognome();
-                                out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatori().get(i).getId() + "&s=" + elencoDocenti.getListaRicercatori().get(i).getSesso() + "&nome=" + elencoDocenti.getListaRicercatori().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatori().get(i).getCognome();
+                                out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                             }
                         %>
                     </ul>
@@ -72,8 +72,8 @@
                         <%
                             for (int i = 0; i < elencoDocenti.getListaRicercatoriATempoDeterminato().size(); i++) {
                                 nomeDocente = elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome() + " " + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome();
-                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome();
-                                out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getId() + "&s=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getSesso() + "&nome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome();
+                                out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                             }
                         %>
                     </ul>

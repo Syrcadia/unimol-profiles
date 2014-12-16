@@ -9,6 +9,7 @@ public class Docente {
     private String nome;
     private String cognome;
     private String id;
+    private String sesso;
 
     public String getNome() {
         return nome;
@@ -34,6 +35,14 @@ public class Docente {
         this.id = email;
     }
 
+    public String getSesso() {
+        return sesso;
+    }
+
+    public void setSesso(String sesso) {
+        this.sesso = sesso;
+    }
+    
     public String getNomeCartella() {
         return this.getNome().toLowerCase() + "_"
              + this.getCognome().toLowerCase() + "_"
@@ -41,13 +50,11 @@ public class Docente {
     }
 
     public static Docente getStub() {
-
         Docente stub = new Docente();
         stub.setNome("Fausto");
         stub.setCognome("Fasano");
         stub.setId("faufas");
-
+        stub.setSesso("m");  
         return stub;
     }
-
 }

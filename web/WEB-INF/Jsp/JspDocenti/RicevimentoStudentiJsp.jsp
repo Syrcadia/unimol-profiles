@@ -18,17 +18,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
             <%@include file="FotoDocente.jsp" %>
@@ -42,7 +38,7 @@
                     } else {
                         out.print(""
                                 + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
-                                + "Non è ancora presente l'orario di ricevimento del Prof. "+docente.getNome()+" "+docente.getCognome()
+                                + "Non è ancora presente l'orario di ricevimento del Prof. " + docente.getNome() + " " + docente.getCognome()
                                 + "</div>");
                     }
                 %>

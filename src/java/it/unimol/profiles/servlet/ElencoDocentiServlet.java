@@ -36,9 +36,6 @@ public class ElencoDocentiServlet extends HttpServlet {
         request.setAttribute("elenco_docenti", elencoDocenti);
         dispatcher.forward(request, response);
     }
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -77,5 +74,4 @@ public class ElencoDocentiServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

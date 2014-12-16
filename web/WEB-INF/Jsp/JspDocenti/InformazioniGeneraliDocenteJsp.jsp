@@ -17,17 +17,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
             <%@include file="FotoDocente.jsp" %>
@@ -35,8 +31,7 @@
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <div id="INFORMAZIONI_GENERALI">
                     <ul>
-                        <%               
-                            out.println("<li>Nome: " + informazioniGeneraliDocente.getNome() + "</li>");
+                        <%                            out.println("<li>Nome: " + informazioniGeneraliDocente.getNome() + "</li>");
                             out.println("<li>Cognome: " + informazioniGeneraliDocente.getCognome() + "</li>");
                             out.println("<li>Dipartimento: " + informazioniGeneraliDocente.getDipartimento() + "</li>");
                             out.println("<li>Ruolo: " + informazioniGeneraliDocente.getRuolo() + "</li>");

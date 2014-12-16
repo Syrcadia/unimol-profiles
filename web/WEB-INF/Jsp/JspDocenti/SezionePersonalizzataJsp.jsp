@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="it.unimol.profiles.beans.utils.Docente"%>
-<%@page import="it.unimol.profiles.beans.pagine.docente.SezionePersonalizzata"%>
+<%@page import="it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.SezionePersonalizzata"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     SezionePersonalizzata sezionePersonalizzata = (SezionePersonalizzata) request.getAttribute("sezione_personalizzata_docente");
@@ -18,24 +18,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%
-                out.print("Prof. " + docente.getNome() + " " + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%
-                out.print("Prof. " + docente.getNome() + " "
-                        + docente.getCognome());
-            %>
+            <%@include file="NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
             <%@include file="FotoDocente.jsp" %>
             <%@include file="MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
-                
+
             </div>
 
         </div>

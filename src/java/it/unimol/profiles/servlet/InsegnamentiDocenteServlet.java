@@ -6,12 +6,9 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +34,6 @@ public class InsegnamentiDocenteServlet extends SezioneServlet {
         Docente docente = this.getDocenteDallaUrl(request);
         
         try {
-            
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
             InsegnamentiDocente insegnamentiDocente = ManagerDocenti.getInstance().getInsegnamentiDocente(docente);

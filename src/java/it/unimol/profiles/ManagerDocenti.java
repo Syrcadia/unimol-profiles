@@ -67,6 +67,7 @@ public class ManagerDocenti {
                 nextDocente.setId(resultSet.getString("id_docente"));
                 nextDocente.setNome(resultSet.getString("nome"));
                 nextDocente.setCognome(resultSet.getString("cognome"));
+                nextDocente.setSesso(resultSet.getString("sesso"));
                 switch (resultSet.getString("ruolo")) {
                     case DB_DOCENTI_RUOLO_PROFESSORE_ORDINARIO:
                         listaProfessoriOrdinari.add(nextDocente);
@@ -285,12 +286,24 @@ public class ManagerDocenti {
         //TODO
     }
 
-    public PubblicazioniDocente getPubblicazioniDocente(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException {
+    public PubblicazioniDocente getPubblicazioniDocente(Docente docente, String contextPath) throws DocenteInesistenteException, RisorsaNonPresenteException {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
 
-        return StubFactory.getPubblicazioniDocenteStub();
+        PubblicazioniDocente pubblicazioniDocente = new PubblicazioniDocente();
+        String percorsoPubblicazioniBibTex = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/pubblicazioni/pubblicazioni_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".bib";
+
+        File pubblicazioniBibTex = new File(contextPath + "/" + percorsoPubblicazioniBibTex);
+
+        if (!(pubblicazioniBibTex.isFile())) {
+            throw new RisorsaNonPresenteException();
+        } else {
+            pubblicazioniDocente.setBibTexLink(percorsoPubblicazioniBibTex);
+        }
+
+        return pubblicazioniDocente;
+
     }
 
     public void setPubblicazioniDocente(Docente docente, PubblicazioniDocente PubblicazioniDocente) throws DocenteInesistenteException {
@@ -301,7 +314,7 @@ public class ManagerDocenti {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         return StubFactory.getRicevimentoStudentiStub();
     }
 
@@ -309,9 +322,9 @@ public class ManagerDocenti {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
+
         Connection connection = null;
-        ElencoSezioniPersonalizzate elencoSezioniPersonalizzate=new ElencoSezioniPersonalizzate();
+        ElencoSezioniPersonalizzate elencoSezioniPersonalizzate = new ElencoSezioniPersonalizzate();
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -321,9 +334,8 @@ public class ManagerDocenti {
                     + "FROM sezioni_docenti "
                     + "WHERE id_docente = " + docente.getId() + " "
                     + "ORDER BY ordine");
-            
-            
-            while (resultSet.next()){
+
+            while (resultSet.next()) {
                 elencoSezioniPersonalizzate.addSezione(resultSet.getString("nome_sezione"), resultSet.getString("id_sezione"));
             }
 
@@ -340,17 +352,16 @@ public class ManagerDocenti {
                 }
             }
         }
-        
+
         return elencoSezioniPersonalizzate;
-     
+
     }
 
     public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteInesistenteException, RisorsaNonPresenteException {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-        
-        
+
         return null;
     }
 
