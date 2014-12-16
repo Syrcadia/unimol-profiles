@@ -49,6 +49,12 @@ body{
     float: right;
 }
 
+#LINK_ELENCO_DOCENTI{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #TITOLO_PAGINA{
     background-color: #0369D2;
     background-image: url('../Images/pattern-titolo.png');

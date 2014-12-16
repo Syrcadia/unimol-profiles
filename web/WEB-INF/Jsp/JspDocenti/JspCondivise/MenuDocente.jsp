@@ -1,8 +1,3 @@
-<%-- 
-    Document   : MenuDocente
-    Created on : 2-dic-2014, 12.51.02
-    Author     : Stefano
---%>
 <%@page import="it.unimol.profiles.beans.utils.ElencoSezioniPersonalizzate"%>
 <%
     ElencoSezioniPersonalizzate elencoSezioniPersonalizzate = (ElencoSezioniPersonalizzate) request.getAttribute("elenco_sezioni_personalizzate");
