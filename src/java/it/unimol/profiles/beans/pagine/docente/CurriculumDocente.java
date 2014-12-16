@@ -32,7 +32,7 @@ public class CurriculumDocente {
     public static CurriculumDocente getStub() {
         CurriculumDocente stub = new CurriculumDocente();
 
-        stub.setPdfLink("Risorse/fausto_fasano_1/files/curriculum/curriculum_fausto_fasano.pdf");
+        stub.setPdfLink("Risorse/fausto_fasano_1/curriculum/curriculum_fausto_fasano.pdf");
 
         stub.setHtmlLink("<div>\n"
                 + "	Il dott. Fausto Fasano e&#39; nato a Salerno il 20 Febbraio 1975 e risiede a Campobasso (CB).</div>\n"

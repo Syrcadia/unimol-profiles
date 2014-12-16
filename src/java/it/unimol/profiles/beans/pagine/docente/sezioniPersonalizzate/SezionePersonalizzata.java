@@ -1,4 +1,4 @@
-package it.unimol.profiles.beans.pagine.docente;
+package it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate;
 
 /**
  *

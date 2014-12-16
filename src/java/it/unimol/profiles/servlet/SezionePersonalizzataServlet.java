@@ -1,7 +1,7 @@
 package it.unimol.profiles.servlet;
 
 import it.unimol.profiles.ManagerDocenti;
-import it.unimol.profiles.beans.pagine.docente.SezionePersonalizzata;
+import it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.SezionePersonalizzata;
 import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;

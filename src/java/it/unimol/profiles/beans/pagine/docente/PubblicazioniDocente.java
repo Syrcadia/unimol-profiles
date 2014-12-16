@@ -22,7 +22,7 @@ public class PubblicazioniDocente {
 
     public static PubblicazioniDocente getPubblicazioniDocenteStub() {
         PubblicazioniDocente stub = new PubblicazioniDocente();
-        stub.setBibTexLink("../../../Risorse/fausto_fasano_1/files/pubblicazioni/pubblicazioni_fausto_fasano.bib");
+        stub.setBibTexLink("../../../Risorse/fausto_fasano_1/pubblicazioni/pubblicazioni_fausto_fasano.bib");
         return stub;
     }
 }

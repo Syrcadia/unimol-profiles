@@ -1,5 +1,6 @@
 package it.unimol.profiles;
 
+import it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.SezionePersonalizzata;
 import it.unimol.profiles.beans.utils.*;
 import it.unimol.profiles.beans.pagine.*;
 import it.unimol.profiles.beans.pagine.docente.*;
@@ -261,8 +262,8 @@ public class ManagerDocenti {
         }
 
         CurriculumDocente curriculumDocente = new CurriculumDocente();
-        String percorsoCurriculumHtml = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/testi/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".html";
-        String percorsoCurriculumPdf = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/files/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".pdf";
+        String percorsoCurriculumHtml = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".html";
+        String percorsoCurriculumPdf = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/curriculum/curriculum_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".pdf";
 
         File curriculumHtml = new File(contextPath + "/" + percorsoCurriculumHtml);
         File curriculumPdf = new File(contextPath + "/" + percorsoCurriculumPdf);
@@ -300,7 +301,7 @@ public class ManagerDocenti {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-
+        
         return StubFactory.getRicevimentoStudentiStub();
     }
 
@@ -397,7 +398,7 @@ public class ManagerDocenti {
         } else {
             fotoPath = "Risorse/"
                     + docente.getNomeCartella()
-                    + "/foto/foto_profilo/"
+                    + "/foto_profilo/"
                     + nomeFotoProfilo;
         }
         return fotoPath;
