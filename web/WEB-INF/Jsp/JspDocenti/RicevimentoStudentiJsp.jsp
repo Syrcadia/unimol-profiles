@@ -31,7 +31,7 @@
             <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (ricevimentoStudenti != null) {
-                        String ricevimentoLink = "../../../" + ricevimentoStudenti.getRicevimentoStudenti();
+                        String ricevimentoLink = "../../../" + ricevimentoStudenti.getRicevimentoStudentiLink();
                         out.print(""
                                 + "<div id='RICEVIMENTO_STUDENTI'>");
                 %>
