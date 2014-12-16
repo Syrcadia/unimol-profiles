@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     InsegnamentiDocente insegnamentiDocente = (InsegnamentiDocente) request.getAttribute("insegnamenti_docente");
-    Docente docente = (Docente)request.getAttribute("docente");
+    Docente docente = (Docente) request.getAttribute("docente");
 %>
 <!DOCTYPE html>
 <html>
@@ -34,13 +34,16 @@
             <%@include file="FotoDocente.jsp" %>
             <%@include file="MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
-                <div id="INSEGNAMENTI">
-                    <%
-                        out.print(insegnamentiDocente.getTestoFormattatoHtml());
-                    %>
-                </div>
+                <%  if (insegnamentiDocente != null) {
+                        out.print("<div id='INSEGNAMENTI'>" + insegnamentiDocente.getTestoFormattatoHtml() + "</div>");
+                    } else {
+                        out.print(""
+                                + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
+                                + "Non è stata ancora configurata la pagina degli insegnamenti per il Prof. " + docente.getNome() + " " + docente.getCognome()
+                                + "</div>");
+                    }
+                %>
             </div>
-
         </div>
         <%@include file="../../Html/Footer.html" %>
     </body>

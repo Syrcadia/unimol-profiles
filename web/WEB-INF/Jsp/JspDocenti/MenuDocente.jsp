@@ -19,7 +19,7 @@
         <li><a href="RicevimentoStudenti?id=<%out.print(((Docente) request.getAttribute("docente")).getId());%>&nome=<%out.print(((Docente) request.getAttribute("docente")).getNome());%>&cognome=<%out.print(((Docente) request.getAttribute("docente")).getCognome());%>">Ricevimento Studenti</a></li>
             <%
                 for (int i = 0; i < elencoSezioniPersonalizzate.size(); i++) {
-                    out.println("<li><a href='SezionePersonalizzata?id=" + ((Docente) request.getAttribute("docente")).getId() + "&nome=" + ((Docente) request.getAttribute("docente")).getNome() + "&cognome=" + ((Docente) request.getAttribute("docente")).getCognome() +"&id_sezione="+ i + "'>" + elencoSezioniPersonalizzate.get(i) + "</a></li>");
+                    out.println("<li><a href='SezionePersonalizzata?id=" + ((Docente) request.getAttribute("docente")).getId() + "&nome=" + ((Docente) request.getAttribute("docente")).getNome() + "&cognome=" + ((Docente) request.getAttribute("docente")).getCognome() +"&id_sezione="+ elencoSezioniPersonalizzate.getIdSezione(i) + "'>" + elencoSezioniPersonalizzate.getNomeSezione(i) + "</a></li>");
                 }
             %>
     </ul>

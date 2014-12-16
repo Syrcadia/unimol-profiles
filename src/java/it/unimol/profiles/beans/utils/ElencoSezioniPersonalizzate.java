@@ -6,22 +6,29 @@ import java.util.ArrayList;
  *
  * @author Stefano
  */
-public class ElencoSezioniPersonalizzate extends ArrayList<String>{
+public class ElencoSezioniPersonalizzate {
+    
+    ArrayList<String[]> elencoSezioniPersonalizzate;
     
     public ElencoSezioniPersonalizzate(){
-        
+        elencoSezioniPersonalizzate=new ArrayList<>();
     }
     
-    public static ElencoSezioniPersonalizzate getStub(){
-        
-        ElencoSezioniPersonalizzate stub=new ElencoSezioniPersonalizzate();
-        stub.add("Sito Web");
-        stub.add("Le mie Foto");
-        stub.add("Convegno 2015");
-        stub.add("La sezione col nome lungo che potrebbe creare broblemi col css");
-        stub.add("La sezione dopo quella lunga");
+    public void addSezione(String nomeSezione, String idSezione){
+        String[] nextSezione={nomeSezione,idSezione};
+        elencoSezioniPersonalizzate.add(nextSezione);
+    }
     
-        return stub;
+    public String getIdSezione(int i){
+        return elencoSezioniPersonalizzate.get(i)[1];
+    }
+    
+    public String getNomeSezione(int i){
+        return elencoSezioniPersonalizzate.get(i)[0];
+    }
+    
+    public int size(){
+        return elencoSezioniPersonalizzate.size();
     }
     
 }

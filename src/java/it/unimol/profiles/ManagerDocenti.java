@@ -305,14 +305,51 @@ public class ManagerDocenti {
     }
 
     public ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteInesistenteException {
-        return StubFactory.getElencoSezioniPersonalizzateStub();
+        if (!esisteDocente(docente)) {
+            throw new DocenteInesistenteException();
+        }
+        
+        Connection connection = null;
+        ElencoSezioniPersonalizzate elencoSezioniPersonalizzate=new ElencoSezioniPersonalizzate();
+
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(""
+                    + "SELECT id_sezione, nome_sezione, ordine "
+                    + "FROM sezioni_docenti "
+                    + "WHERE id_docente = " + docente.getId() + " "
+                    + "ORDER BY ordine");
+            
+            
+            while (resultSet.next()){
+                elencoSezioniPersonalizzate.addSezione(resultSet.getString("nome_sezione"), resultSet.getString("id_sezione"));
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception ignore) {
+                }
+            }
+        }
+        
+        return elencoSezioniPersonalizzate;
+     
     }
 
     public SezionePersonalizzata getSezionePersonalizzata(Docente docente, int idSezione) throws DocenteInesistenteException, RisorsaNonPresenteException {
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
-
+        
+        
         return null;
     }
 

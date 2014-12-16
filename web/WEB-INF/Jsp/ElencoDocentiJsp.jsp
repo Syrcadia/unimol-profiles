@@ -10,6 +10,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     ElencoDocenti elencoDocenti = (ElencoDocenti) request.getAttribute("elenco_docenti");
+    String href;
+    String nomeDocente;
 %>
 <!DOCTYPE html>
 <html>
@@ -33,8 +35,8 @@
                     <ul>
                         <%
                             for (int i = 0; i < elencoDocenti.getListaProfessoriOrdinari().size(); i++) {
-                                String nomeDocente = elencoDocenti.getListaProfessoriOrdinari().get(i).getNome() + " " + elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome();
-                                String href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome();
+                                nomeDocente = elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome()+ " " + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome();
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriOrdinari().get(i).getCognome();
                                 out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
                             }
                         %>
@@ -45,8 +47,8 @@
                     <ul>
                         <%
                             for (int i = 0; i < elencoDocenti.getListaProfessoriAssociati().size(); i++) {
-                                String nomeDocente = elencoDocenti.getListaProfessoriAssociati().get(i).getNome() + " " + elencoDocenti.getListaProfessoriAssociati().get(i).getCognome();
-                                String href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriAssociati().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getCognome();
+                                nomeDocente = elencoDocenti.getListaProfessoriAssociati().get(i).getCognome() + " " + elencoDocenti.getListaProfessoriAssociati().get(i).getNome();
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaProfessoriAssociati().get(i).getId() + "&nome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getNome() + "&cognome=" + elencoDocenti.getListaProfessoriAssociati().get(i).getCognome();
                                 out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
                             }
                         %>
@@ -57,8 +59,8 @@
                     <ul>
                         <%
                             for (int i = 0; i < elencoDocenti.getListaRicercatori().size(); i++) {
-                                String nomeDocente = elencoDocenti.getListaRicercatori().get(i).getNome() + " " + elencoDocenti.getListaRicercatori().get(i).getCognome();
-                                String href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatori().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatori().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatori().get(i).getCognome();
+                                nomeDocente = elencoDocenti.getListaRicercatori().get(i).getCognome() + " " + elencoDocenti.getListaRicercatori().get(i).getNome();
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatori().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatori().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatori().get(i).getCognome();
                                 out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
                             }
                         %>
@@ -69,8 +71,8 @@
                     <ul>
                         <%
                             for (int i = 0; i < elencoDocenti.getListaRicercatoriATempoDeterminato().size(); i++) {
-                                String nomeDocente = elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome() + " " + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome();
-                                String href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome();
+                                nomeDocente = elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome() + " " + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome();
+                                href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getId() + "&nome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getNome() + "&cognome=" + elencoDocenti.getListaRicercatoriATempoDeterminato().get(i).getCognome();
                                 out.print("<li><a href='"+href+"'>" + nomeDocente + "</a></li>");
                             }
                         %>

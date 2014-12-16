@@ -56,10 +56,6 @@ public class StubFactory {
         return CurriculumDocente.getStub();
     }
     
-    public static ElencoSezioniPersonalizzate getElencoSezioniPersonalizzateStub() {
-        return ElencoSezioniPersonalizzate.getStub();
-    }
-    
     public static PubblicazioniDocente getPubblicazioniDocenteStub() {
         return PubblicazioniDocente.getPubblicazioniDocenteStub();
     }
