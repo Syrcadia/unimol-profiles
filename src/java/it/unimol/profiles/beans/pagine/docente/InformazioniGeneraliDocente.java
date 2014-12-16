@@ -65,24 +65,4 @@ public class InformazioniGeneraliDocente {
     public void setDipartimento(String dipartimento) {
         this.dipartimento = dipartimento;
     }
-
-    public static InformazioniGeneraliDocente getStub() {
-        InformazioniGeneraliDocente stub = new InformazioniGeneraliDocente();
-        stub.setNome("Fausto");
-        stub.setCognome("Fasano");
-        stub.setDipartimento("Bioscienze e Territorio");
-        ArrayList<String> emails = new ArrayList();
-        emails.add("fausto.fasano@unimol.it");
-        emails.add("fausto.fasano@unimol.com");
-        
-        stub.setEmail(emails);
-        stub.setRuolo("Ricercatore");
-        
-        ArrayList<String> telefono = new ArrayList();
-        telefono.add("0865111111");
-        telefono.add("3333333333");
-        stub.setTelefono(telefono);
-
-        return stub;
-    }
 }

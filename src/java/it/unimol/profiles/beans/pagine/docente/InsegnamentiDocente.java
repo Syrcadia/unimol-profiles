@@ -20,10 +20,4 @@ public class InsegnamentiDocente {
 
     public InsegnamentiDocente() {
     }
-
-    public static InsegnamentiDocente getStub() {
-        InsegnamentiDocente stub = new InsegnamentiDocente();
-        return stub;
-    }
-
 }

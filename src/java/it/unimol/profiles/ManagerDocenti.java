@@ -247,9 +247,7 @@ public class ManagerDocenti {
                 }
             }
         }
-
         return insegnamentiDocente;
-
     }
 
     public CurriculumDocente getCurriculumDocente(Docente docente, String contextPath) throws DocenteInesistenteException, RisorsaNonPresenteException {
@@ -264,16 +262,16 @@ public class ManagerDocenti {
         File curriculumHtml = new File(contextPath + "/" + percorsoCurriculumHtml);
         File curriculumPdf = new File(contextPath + "/" + percorsoCurriculumPdf);
 
-        if (!(curriculumHtml.isFile() || curriculumPdf.isFile())) {
+        if (!curriculumHtml.isFile() && !curriculumPdf.isFile()) {
             throw new RisorsaNonPresenteException();
+        } else {
+            if (curriculumHtml.isFile()) {
+                curriculumDocente.setHtmlLink(percorsoCurriculumHtml);
+            }
+            if (curriculumPdf.isFile()) {
+                curriculumDocente.setPdfLink(percorsoCurriculumPdf);
+            }
         }
-        if (curriculumHtml.isFile()) {
-            curriculumDocente.setHtmlLink(percorsoCurriculumHtml);
-        }
-        if (curriculumPdf.isFile()) {
-            curriculumDocente.setPdfLink(percorsoCurriculumPdf);
-        }
-
         return curriculumDocente;
     }
 
@@ -305,12 +303,24 @@ public class ManagerDocenti {
         //TODO inserire nel db
     }
 
-    public RicevimentoStudenti getRicevimentoStudenti(Docente docente) throws DocenteInesistenteException, RisorsaNonPresenteException {
+    public RicevimentoStudenti getRicevimentoStudenti(Docente docente, String contextPath) throws DocenteInesistenteException, RisorsaNonPresenteException {
+
         if (!esisteDocente(docente)) {
             throw new DocenteInesistenteException();
         }
 
-        return StubFactory.getRicevimentoStudentiStub();
+        RicevimentoStudenti ricevimentoStudenti = new RicevimentoStudenti();
+        String percorsoOrarioRicevimentoHtml = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/orario_ricevimento/orario_ricevimento_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".html";
+
+        File orarioRicevimentoHtml = new File(contextPath + "/" + percorsoOrarioRicevimentoHtml);
+
+        if (!orarioRicevimentoHtml.isFile()) {
+            throw new RisorsaNonPresenteException();
+        } else {
+            ricevimentoStudenti.setRicevimentoStudentiLink(percorsoOrarioRicevimentoHtml);
+        }
+
+        return ricevimentoStudenti;
     }
 
     public ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteInesistenteException {

@@ -31,9 +31,12 @@
             <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (ricevimentoStudenti != null) {
+                        String ricevimentoLink = "../../../" + ricevimentoStudenti.getRicevimentoStudenti();
                         out.print(""
-                                + "<div id='RICEVIMENTO_STUDENTI'>"
-                                + ricevimentoStudenti
+                                + "<div id='RICEVIMENTO_STUDENTI'>");
+                %>
+                <jsp:include page='<%=ricevimentoLink%>' flush='true'/>
+                <% out.print(""
                                 + "</div>");
                     } else {
                         out.print("<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>");

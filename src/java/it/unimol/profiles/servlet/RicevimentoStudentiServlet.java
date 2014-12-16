@@ -37,7 +37,7 @@ public class RicevimentoStudentiServlet extends SezioneServlet {
         try {            
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente);
+            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente,getServletConfig().getServletContext().getRealPath(""));
             request.setAttribute("ricevimento_studenti", ricevimentoStudenti);
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
