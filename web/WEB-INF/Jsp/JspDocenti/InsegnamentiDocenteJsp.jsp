@@ -17,25 +17,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
-            <%@include file="FotoDocente.jsp" %>
-            <%@include file="MenuDocente.jsp" %>
+            <%@include file="JspCondivise/FotoDocente.jsp" %>
+            <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (insegnamentiDocente != null) {
                         out.print("<div id='INSEGNAMENTI'>" + insegnamentiDocente.getTestoFormattatoHtml() + "</div>");
                     } else {
-                        out.print(""
-                                + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
-                                + "Non è stata ancora configurata la pagina degli insegnamenti per il Prof. " + docente.getNome() + " " + docente.getCognome()
-                                + "</div>");
+                        out.print("<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>");
+                        if (docente.getSesso().equalsIgnoreCase("F")) {
+                            out.print("Non è stata ancora configurata la pagina degli insegnamenti per la Prof.ssa " + docente.getNome() + " " + docente.getCognome());
+                        } else {
+                            out.print("Non è stata ancora configurata la pagina degli insegnamenti per il Prof. " + docente.getNome() + " " + docente.getCognome());
+                        }
+                        out.print("</div>");
                     }
                 %>
             </div>

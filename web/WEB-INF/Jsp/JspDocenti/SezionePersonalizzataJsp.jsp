@@ -18,17 +18,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
-            <%@include file="FotoDocente.jsp" %>
-            <%@include file="MenuDocente.jsp" %>
+            <%@include file="JspCondivise/FotoDocente.jsp" %>
+            <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
 
             </div>

@@ -27,17 +27,17 @@
         %>
 
         <title>
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            <%@include file="NomeDocente.jsp" %>
+            <%@include file="JspCondivise/NomeDocente.jsp" %>
         </div>
         <div id="CONTENUTO_PAGINA">
-            <%@include file="FotoDocente.jsp" %>
-            <%@include file="MenuDocente.jsp" %>
+            <%@include file="JspCondivise/FotoDocente.jsp" %>
+            <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (pubblicazioniDocente != null) {
                         String bibTexLink = "../../../" + pubblicazioniDocente.getBibTexLink();
@@ -53,10 +53,13 @@
                                 + "</div>"
                         );
                     } else {
-                        out.print(""
-                                + "<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>"
-                                + "Non sono presenti pubblicazioni per il Prof. " + docente.getNome() + " " + docente.getCognome()
-                                + "</div>");
+                        out.print("<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>");
+                        if (docente.getSesso().equalsIgnoreCase("F")) {
+                            out.print("Non sono ancora state inserite le pubblicazioni per la Prof.ssa " + docente.getNome() + " " + docente.getCognome());
+                        } else {
+                            out.print("Non sono ancora state inserite le pubblicazioni per il Prof. " + docente.getNome() + " " + docente.getCognome());
+                        }
+                        out.print("</div>");
                     }
                 %>
             </div>

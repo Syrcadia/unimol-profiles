@@ -2,16 +2,12 @@ package it.unimol.profiles;
 
 import it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.SezionePersonalizzata;
 import it.unimol.profiles.beans.utils.*;
-import it.unimol.profiles.beans.pagine.*;
 import it.unimol.profiles.beans.pagine.docente.*;
 import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import it.unimol.profiles.stubs.StubFactory;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +15,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
