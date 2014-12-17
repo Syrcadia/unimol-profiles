@@ -4,6 +4,9 @@
     Author     : Stefano
 --%>
 
+<%@page import="it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.ContenutoFoto"%>
+<%@page import="it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.ContenutoFile"%>
+<%@page import="it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.ContenutoTesto"%>
 <%@page import="it.unimol.profiles.beans.utils.Docente"%>
 <%@page import="it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.SezionePersonalizzata"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -30,9 +33,30 @@
             <%@include file="JspCondivise/FotoDocente.jsp" %>
             <%@include file="JspCondivise/MenuDocente.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
+                <%  if (sezionePersonalizzata != null) {
+                        for (int i = 0; i < sezionePersonalizzata.size(); i++) {
+                            if (sezionePersonalizzata.get(i) instanceof ContenutoTesto) {
+                                String linkTesto = "../../../" + ((ContenutoTesto) sezionePersonalizzata.get(i)).getLinkHtml();
+                                out.print("<div class='contenuto_testo'>");
+                                %><jsp:include page='<%=linkTesto%>' flush='true'/><%
+                                out.print("</div>");
+                            } else if (sezionePersonalizzata.get(i) instanceof ContenutoFile) {
+                                String linkFile = ((ContenutoFile) sezionePersonalizzata.get(i)).getFileLink();
+                                out.print("<div class='contenuto_file'>"
+                                        + "<a href='" + linkFile + "'>"+((ContenutoFile) sezionePersonalizzata.get(i)).getDescrizioneFile()+"</a>"
+                                        + "</div>");
+                            } else if (sezionePersonalizzata.get(i) instanceof ContenutoFoto) {
+                                String linkFoto = ((ContenutoFoto) sezionePersonalizzata.get(i)).getLinkFoto();
+                                out.print("<div class='contenuto_foto'>"
+                                        + "<img src='" + linkFoto + "' alt='"+((ContenutoFoto) sezionePersonalizzata.get(i)).getDescrizioneFoto() +"'></a>"
+                                        + "</div>");
+                            }
+                        }
+                    } else {
 
+                    }
+                %>
             </div>
-
         </div>
         <%@include file="../../Html/Footer.html" %>
     </body>

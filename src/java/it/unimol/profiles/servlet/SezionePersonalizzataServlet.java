@@ -35,22 +35,24 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
             throws ServletException, IOException {
 
         Docente docente = this.getDocenteDallaUrl(request);
-        
+
         try {
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
             SezionePersonalizzata sezionePersonalizzata = ManagerDocenti.getInstance().getSezionePersonalizzata(docente, (int) Integer.parseInt(request.getParameter("id_sezione")));
             request.setAttribute("sezione_personalizzata_docente", sezionePersonalizzata);
-            
+            request.setAttribute("docente", docente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/SezionePersonalizzataJsp.jsp");
+            dispatcher.forward(request, response);
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("sezione_personalizzata_docente", null);
-        } finally {
             request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/SezionePersonalizzataJsp.jsp");
             dispatcher.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

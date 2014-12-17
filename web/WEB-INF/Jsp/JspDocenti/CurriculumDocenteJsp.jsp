@@ -41,14 +41,10 @@
                                     + "</div>");
                         }
                         if (curriculumDocente.getHtmlLink() != null) {
-                            out.print(""
-                                    + "<div id='TESTO_CURRICULUM'>");
+                            out.print("<div id='TESTO_CURRICULUM'>");
                             String curriculumHtmlLink = curriculumHtmlLink = "../../../" + curriculumDocente.getHtmlLink();
-                %>
-                <jsp:include page='<%=curriculumHtmlLink%>' flush='true'/>
-                <%
-                            out.print(""
-                                    + "</div>");
+                            %><jsp:include page='<%=curriculumHtmlLink%>' flush='true'/> <%
+                            out.print("</div>");
                         }
                         out.print("</div>");
                     } else {

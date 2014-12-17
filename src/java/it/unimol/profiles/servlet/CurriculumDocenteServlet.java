@@ -34,21 +34,23 @@ public class CurriculumDocenteServlet extends SezioneServlet {
         Docente docente = this.getDocenteDallaUrl(request);
 
         try {
-            
+
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
             CurriculumDocente curriculumDocente = ManagerDocenti.getInstance().getCurriculumDocente(docente, getServletConfig().getServletContext().getRealPath(""));
-            request.setAttribute("curriculum_docente", curriculumDocente);       
-            
+            request.setAttribute("curriculum_docente", curriculumDocente);
+            request.setAttribute("docente", docente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/CurriculumDocenteJsp.jsp");
+            dispatcher.forward(request, response);
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("curriculum_docente", null);
-        } finally{
             request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/CurriculumDocenteJsp.jsp");
             dispatcher.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

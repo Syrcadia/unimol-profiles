@@ -34,20 +34,23 @@ public class RicevimentoStudentiServlet extends SezioneServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Docente docente = this.getDocenteDallaUrl(request);
-        try {            
+        try {
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente,getServletConfig().getServletContext().getRealPath(""));
+            RicevimentoStudenti ricevimentoStudenti = ManagerDocenti.getInstance().getRicevimentoStudenti(docente, getServletConfig().getServletContext().getRealPath(""));
             request.setAttribute("ricevimento_studenti", ricevimentoStudenti);
+            request.setAttribute("docente", docente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/RicevimentoStudentiJsp.jsp");
+            dispatcher.forward(request, response);
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("ricevimento_studenti", null);
-        } finally {
             request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/RicevimentoStudentiJsp.jsp");
             dispatcher.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

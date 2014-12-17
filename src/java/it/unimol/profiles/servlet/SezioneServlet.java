@@ -29,7 +29,8 @@ public abstract class SezioneServlet extends HttpServlet {
         return "Il docente richiesto "
                 + "(nome = " + docente.getNome() + ", "
                 + "cognome = " + docente.getCognome() + ", "
-                + "id = " + docente.getId() + ") "
+                + "id = " + docente.getId() + ", "
+                + "s=" + docente.getSesso() + ")"
                 + "non è presente nel database";
     }
 
@@ -41,10 +42,10 @@ public abstract class SezioneServlet extends HttpServlet {
         }
     }
 
-    protected ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteInesistenteException{
+    protected ElencoSezioniPersonalizzate getElencoSezioniPersonalizzate(Docente docente) throws DocenteInesistenteException {
         return ManagerDocenti.getInstance().getElencoSezioniPersonalizzate(docente);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

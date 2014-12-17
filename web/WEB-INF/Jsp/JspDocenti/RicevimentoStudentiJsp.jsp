@@ -32,12 +32,9 @@
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <%  if (ricevimentoStudenti != null) {
                         String ricevimentoLink = "../../../" + ricevimentoStudenti.getRicevimentoStudentiLink();
-                        out.print(""
-                                + "<div id='RICEVIMENTO_STUDENTI'>");
-                %>
-                <jsp:include page='<%=ricevimentoLink%>' flush='true'/>
-                <% out.print(""
-                                + "</div>");
+                        out.print("<div id='RICEVIMENTO_STUDENTI'>");
+                        %><jsp:include page='<%=ricevimentoLink%>' flush='true'/><%
+                        out.print("</div>");
                     } else {
                         out.print("<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>");
                         if (docente.getSesso().equalsIgnoreCase("F")) {

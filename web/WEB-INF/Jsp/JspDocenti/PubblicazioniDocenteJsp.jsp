@@ -44,9 +44,8 @@
                         out.print(""
                                 + "<div id='PUBBLICAZIONI'>"
                                 + "<textarea id='bibtex_input' style='display:none;'>");
-                %>
-                <jsp:include page='<%=bibTexLink%>' flush='true'/>
-                <% out.print(""
+                        %><jsp:include page='<%=bibTexLink%>' flush='true'/><%
+                        out.print(""
                                 + "</textarea>"
                                 + "<div id='bibtex_display'>"
                                 + "</div>"

@@ -33,25 +33,28 @@ public class PubblicazioniDocenteServlet extends SezioneServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Docente docente = this.getDocenteDallaUrl(request);
-        
+
         try {
-            
+
             request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
             request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-            PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente,getServletConfig().getServletContext().getRealPath(""));
-            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);    
-            
+            PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente, getServletConfig().getServletContext().getRealPath(""));
+            request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);
+            request.setAttribute("docente", docente);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp");
+            dispatcher.forward(request, response);
+
         } catch (DocenteInesistenteException ex) {
             response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("pubblicazioni_docente", null);
-        } finally {
             request.setAttribute("docente", docente);
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp");
             dispatcher.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
