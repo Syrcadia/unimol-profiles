@@ -61,7 +61,7 @@ public class ManagerDocenti {
             ArrayList<Docente> listaRicercatoriATempoDeterminato = new ArrayList<>();
             while (resultSet.next()) {
                 Docente nextDocente = new Docente();
-                nextDocente.setId(resultSet.getString("id_docente"));
+                nextDocente.setId(resultSet.getString("id"));
                 nextDocente.setNome(resultSet.getString("nome"));
                 nextDocente.setCognome(resultSet.getString("cognome"));
                 nextDocente.setSesso(resultSet.getString("sesso"));
@@ -117,7 +117,7 @@ public class ManagerDocenti {
                     + "SELECT * "
                     + "FROM docenti "
                     + "WHERE "
-                    + "id_docente =" + docente.getId() + " "
+                    + "id =" + docente.getId() + " "
                     + "AND nome ='" + docente.getNome() + "' "
                     + "AND cognome ='" + docente.getCognome() + "' "
                     + "AND sesso ='" + docente.getSesso() + "'"
@@ -159,7 +159,7 @@ public class ManagerDocenti {
             resultSet = statement.executeQuery(""
                     + "SELECT nome, cognome, dipartimento, ruolo "
                     + "FROM docenti "
-                    + "WHERE id_docente = " + docente.getId());
+                    + "WHERE id = " + docente.getId());
             resultSet.next();
             informazioniGeneraliDocente.setNome(resultSet.getString("nome"));
             informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
@@ -223,7 +223,7 @@ public class ManagerDocenti {
             ResultSet resultSet = statement.executeQuery(""
                     + "SELECT id_pagina_insegnamenti "
                     + "FROM docenti "
-                    + "WHERE id_docente = " + docente.getId());
+                    + "WHERE id = " + docente.getId());
             resultSet.next();
 
             String idPaginaInsegnamenti = resultSet.getString("id_pagina_insegnamenti");
@@ -402,35 +402,37 @@ public class ManagerDocenti {
                 switch (resultSet.getString("tipo_risorsa")) {
                     case "testo":
                         auxResultSet = auxStatement.executeQuery(""
-                                + "SELECT testo_path "
+                                + "SELECT nome_testo "
                                 + "FROM testi "
-                                + "WHERE id_testo = " + resultSet.getString("id_risorsa"));
+                                + "WHERE id = " + resultSet.getString("id_risorsa"));
                         auxResultSet.next();
                         ContenutoTesto contenutoTesto = new ContenutoTesto();
-
-                        contenutoTesto.setLinkHtml(percorsoCartellaSezione + "/" + auxResultSet.getString("testo_path"));
+                        contenutoTesto.setLinkHtml(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_testo"));
+                        contenutoTesto.setOrdine(Integer.parseInt(resultSet.getString("ordine")));
                         sezionePersonalizzata.add(contenutoTesto);
                         break;
                     case "file":
                         auxResultSet = auxStatement.executeQuery(""
-                                + "SELECT file_path, descrizione_file, tipo "
+                                + "SELECT nome_file, descrizione, estensione "
                                 + "FROM files "
-                                + "WHERE id_file = " + resultSet.getString("id_risorsa"));
+                                + "WHERE id = " + resultSet.getString("id_risorsa"));
                         auxResultSet.next();
                         ContenutoFile contenutoFile = new ContenutoFile();
-                        contenutoFile.setFileLink(percorsoCartellaSezione + "/" + auxResultSet.getString("file_path"));
-                        contenutoFile.setDescrizioneFile(auxResultSet.getString("descrizione_file"));
+                        contenutoFile.setFileLink(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_file"));
+                        contenutoFile.setDescrizioneFile(auxResultSet.getString("descrizione"));
+                        contenutoFile.setOrdine(Integer.parseInt(resultSet.getString("ordine")));
                         sezionePersonalizzata.add(contenutoFile);
                         break;
                     case "foto":
                         auxResultSet = auxStatement.executeQuery(""
-                                + "SELECT foto_path, descrizione_foto "
+                                + "SELECT nome_foto, descrizione "
                                 + "FROM foto "
-                                + "WHERE id_foto= " + resultSet.getString("id_risorsa"));
+                                + "WHERE id= " + resultSet.getString("id_risorsa"));
                         auxResultSet.next();
                         ContenutoFoto contenutoFoto = new ContenutoFoto();
-                        contenutoFoto.setLinkFoto(percorsoCartellaSezione + "/" + auxResultSet.getString("foto_path"));
-                        contenutoFoto.setDescrizioneFoto(auxResultSet.getString("descrizione_foto"));
+                        contenutoFoto.setLinkFoto(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_foto"));
+                        contenutoFoto.setDescrizioneFoto(auxResultSet.getString("descrizione"));
+                        contenutoFoto.setOrdine(Integer.parseInt(resultSet.getString("ordine")));
                         sezionePersonalizzata.add(contenutoFoto);
                         break;
                 }
@@ -475,7 +477,7 @@ public class ManagerDocenti {
             ResultSet resultSet = statement.executeQuery(""
                     + "SELECT nome_foto_profilo "
                     + "FROM docenti "
-                    + "WHERE id_docente = " + docente.getId());
+                    + "WHERE id = " + docente.getId());
             resultSet.next();
 
             nomeFotoProfilo = resultSet.getString("nome_foto_profilo");
