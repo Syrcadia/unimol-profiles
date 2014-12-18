@@ -1,16 +1,19 @@
 package it.unimol.profiles.servlet;
 
+import it.unimol.profiles.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente;
 import it.unimol.profiles.beans.utils.Docente;
-import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,72 +24,70 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InformazioniGeneraliDocente", urlPatterns = {"/InformazioniGeneraliDocente"})
 public class InformazioniGeneraliDocenteServlet extends SezioneServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Override
+    protected void setCustomRequestAttributes(HttpServletRequest request, HttpServletResponse response, Docente docente) throws ServletException, IOException {
+        InformazioniGeneraliDocente informazioniGeneraliDocente = this.getInfoGeneraliDocente(docente);
+        request.setAttribute("informazioni_generali_docente", informazioniGeneraliDocente);
+    }
 
-        Docente docente = this.getDocenteDallaUrl(request);
-       
+    @Override
+    protected String getJspToForward() {
+        return "WEB-INF/Jsp/JspDocenti/InformazioniGeneraliDocenteJsp.jsp";
+    }
+
+    public InformazioniGeneraliDocente getInfoGeneraliDocente(Docente docente) {
+        InformazioniGeneraliDocente informazioniGeneraliDocente = new InformazioniGeneraliDocente();
+
+        Connection connection = null;
         try {
-            InformazioniGeneraliDocente informazioniGeneraliDocente = ManagerDocenti.getInstance().getInfoGeneraliDocente(docente);
-            request.setAttribute("informazioni_generali_docente", informazioniGeneraliDocente);
-            request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
-            request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-            request.setAttribute("docente", docente);
+            connection = ConnectionPool.getInstance().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet;
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/InformazioniGeneraliDocenteJsp.jsp");
-            dispatcher.forward(request, response);
-        } catch (DocenteInesistenteException ex) {
-            response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
+            resultSet = statement.executeQuery(""
+                    + "SELECT nome, cognome, dipartimento, ruolo "
+                    + "FROM docenti "
+                    + "WHERE id = " + docente.getId());
+            resultSet.next();
+            informazioniGeneraliDocente.setNome(resultSet.getString("nome"));
+            informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
+            informazioniGeneraliDocente.setDipartimento(resultSet.getString("dipartimento"));
+            informazioniGeneraliDocente.setRuolo(resultSet.getString("ruolo"));
+
+            resultSet = statement.executeQuery(""
+                    + "SELECT email "
+                    + "FROM email "
+                    + "WHERE id_docente = " + docente.getId());
+            ArrayList<String> emails = new ArrayList<>();
+            while (resultSet.next()) {
+                emails.add(resultSet.getString("email"));
+            }
+            informazioniGeneraliDocente.setEmail(emails);
+
+            resultSet = statement.executeQuery(""
+                    + "SELECT num_telefono "
+                    + "FROM telefono "
+                    + "WHERE id_docente = " + docente.getId());
+            ArrayList<String> telefoni = new ArrayList<>();
+            while (resultSet.next()) {
+                telefoni.add(resultSet.getString("num_telefono"));
+            }
+            informazioniGeneraliDocente.setTelefono(telefoni);
+
+            resultSet.close(); //non dimenticare 
+            statement.close(); //queste due istruzioni!!!
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
+            Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
+        } finally { //il contenuto del finally è fondamentale per il funzionamento del connection pool
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception ignore) {
+                }
+            }
         }
-
+        return informazioniGeneraliDocente;
     }
-
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

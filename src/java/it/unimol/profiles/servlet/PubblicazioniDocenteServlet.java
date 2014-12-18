@@ -1,17 +1,12 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.PubblicazioniDocente;
 import it.unimol.profiles.beans.utils.Docente;
-import it.unimol.profiles.exceptions.DocenteInesistenteException;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,78 +17,36 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PubblicazioniDocente", urlPatterns = {"/PubblicazioniDocente"})
 public class PubblicazioniDocenteServlet extends SezioneServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        Docente docente = this.getDocenteDallaUrl(request);
-
+    @Override
+    protected void setCustomRequestAttributes(HttpServletRequest request, HttpServletResponse response, Docente docente) throws ServletException, IOException {
         try {
-
-            request.setAttribute("percorso_foto_profilo", this.getPercorsoFotoProfilo(docente));
-            request.setAttribute("elenco_sezioni_personalizzate", this.getElencoSezioniPersonalizzate(docente));
-            PubblicazioniDocente pubblicazioniDocente = ManagerDocenti.getInstance().getPubblicazioniDocente(docente, getServletConfig().getServletContext().getRealPath(""));
+            PubblicazioniDocente pubblicazioniDocente = this.getPubblicazioniDocente(docente, getServletConfig().getServletContext().getRealPath(""));
             request.setAttribute("pubblicazioni_docente", pubblicazioniDocente);
-            request.setAttribute("docente", docente);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp");
-            dispatcher.forward(request, response);
-
-        } catch (DocenteInesistenteException ex) {
-            response.sendError(404, this.getMessaggioDocenteNonTrovato(docente));
         } catch (RisorsaNonPresenteException ex) {
             request.setAttribute("pubblicazioni_docente", null);
-            request.setAttribute("docente", docente);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp");
-            dispatcher.forward(request, response);
+        }
+    }
+
+    @Override
+    protected String getJspToForward() {
+        return "WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp";
+    }
+
+    public PubblicazioniDocente getPubblicazioniDocente(Docente docente, String contextPath) throws RisorsaNonPresenteException {
+
+        PubblicazioniDocente pubblicazioniDocente = new PubblicazioniDocente();
+        String percorsoPubblicazioniBibTex = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/pubblicazioni/pubblicazioni_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".bib";
+
+        File pubblicazioniBibTex = new File(contextPath + "/" + percorsoPubblicazioniBibTex);
+
+        if (!(pubblicazioniBibTex.isFile())) {
+            throw new RisorsaNonPresenteException();
+        } else {
+            pubblicazioniDocente.setBibTexLink(percorsoPubblicazioniBibTex);
         }
 
-    }
+        return pubblicazioniDocente;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
