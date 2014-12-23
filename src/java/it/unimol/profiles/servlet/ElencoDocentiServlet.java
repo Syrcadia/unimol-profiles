@@ -26,10 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ElencoDocenti", urlPatterns = {"/ElencoDocenti"})
 public class ElencoDocentiServlet extends HttpServlet {
 
-    private static final String DB_DOCENTI_RUOLO_PROFESSORE_ORDINARIO = "Professore ordinario";
-    private static final String DB_DOCENTI_RUOLO_PROFESSORE_ASSOCIATO = "Professore associato";
-    private static final String DB_DOCENTI_RUOLO_RICERCATORE = "Ricercatore";
-    private static final String DB_DOCENTI_RUOLO_RICERCATORE_A_TEMPO_DETERMINATO = "Ricercatore a tempo determinato";
+//    private static final String DB_DOCENTI_RUOLO_PROFESSORE_ORDINARIO = "Professore ordinario";
+//    private static final String DB_DOCENTI_RUOLO_PROFESSORE_ASSOCIATO = "Professore associato";
+//    private static final String DB_DOCENTI_RUOLO_RICERCATORE = "Ricercatore";
+//    private static final String DB_DOCENTI_RUOLO_RICERCATORE_A_TEMPO_DETERMINATO = "Ricercatore a tempo determinato";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,42 +59,42 @@ public class ElencoDocentiServlet extends HttpServlet {
             connection = ConnectionPool.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet;
+            
+            ArrayList<ArrayList<Docente>> liste = new ArrayList<>();
+            ArrayList<String> ruoli = new ArrayList<>();
 
             resultSet = statement.executeQuery(""
                     + "SELECT * "
-                    + "FROM docenti ");
-            ArrayList<Docente> listaProfessoriOrdinari = new ArrayList<>();
-            ArrayList<Docente> listaProfessoriAssociati = new ArrayList<>();
-            ArrayList<Docente> listaRicercatori = new ArrayList<>();
-            ArrayList<Docente> listaRicercatoriATempoDeterminato = new ArrayList<>();
+                    + "FROM ruoli ");
+
             while (resultSet.next()) {
-                Docente nextDocente = new Docente();
-                nextDocente.setId(resultSet.getString("id"));
-                nextDocente.setNome(resultSet.getString("nome"));
-                nextDocente.setCognome(resultSet.getString("cognome"));
-                nextDocente.setSesso(resultSet.getString("sesso"));
-                switch (resultSet.getString("ruolo")) {
-                    case DB_DOCENTI_RUOLO_PROFESSORE_ORDINARIO:
-                        listaProfessoriOrdinari.add(nextDocente);
-                        break;
-
-                    case DB_DOCENTI_RUOLO_PROFESSORE_ASSOCIATO:
-                        listaProfessoriAssociati.add(nextDocente);
-                        break;
-
-                    case DB_DOCENTI_RUOLO_RICERCATORE:
-                        listaRicercatori.add(nextDocente);
-                        break;
-
-                    case DB_DOCENTI_RUOLO_RICERCATORE_A_TEMPO_DETERMINATO:
-                        listaRicercatoriATempoDeterminato.add(nextDocente);
-                        break;
-                }
+                ArrayList<Docente> nextLista = new ArrayList<>();
+                liste.add(nextLista);
+                ruoli.add(resultSet.getString("nome_ruolo"));
             }
-            elencoDocenti.setListaProfessoriOrdinari(listaProfessoriOrdinari);
-            elencoDocenti.setListaProfessoriAssociati(listaProfessoriAssociati);
-            elencoDocenti.setListaRicercatori(listaRicercatori);
-            elencoDocenti.setListaRicercatoriATempoDeterminato(listaRicercatoriATempoDeterminato);
+            //DEVO COMBACIARE L'ID DEL RUOLO CONTENUTO IN DOCENTE CON QUELLO CONTENUTO IN RUOLO
+            resultSet = statement.executeQuery(""
+                    + "SELECT docenti.id, docenti.nome, docenti.cognome, docenti.dipartimento, docenti.id_ruolo, docenti.id_pagina_insegnamenti, docenti.nome_foto_profilo, docenti.sesso, ruoli.nome_ruolo "
+                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
+            );
+            
+            while(resultSet.next()){
+                Docente docente = new Docente();
+                docente.setId(resultSet.getString("id"));
+                docente.setNome(resultSet.getString("nome"));
+                docente.setCognome(resultSet.getString("cognome"));
+                docente.setSesso(resultSet.getString("sesso"));
+                
+                
+                int i = 0;
+                while(!resultSet.getString("nome_ruolo").equals(ruoli.get(i))){
+                    i++;
+                }
+                liste.get(i).add(docente);
+            }
+            
+            elencoDocenti.setElencoDocenti(liste);
+            elencoDocenti.setRuoli(ruoli);
 
             resultSet.close(); //non dimenticare 
             statement.close(); //queste due istruzioni!!!
