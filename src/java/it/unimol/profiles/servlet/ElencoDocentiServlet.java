@@ -55,24 +55,29 @@ public class ElencoDocentiServlet extends HttpServlet {
 
         ElencoDocenti elencoDocenti = new ElencoDocenti();
         Connection connection = null;
+        
         try {
             connection = ConnectionPool.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet;
-
+            
             resultSet = statement.executeQuery(""
                     + "SELECT * "
                     + "FROM docenti ");
+            
             ArrayList<Docente> listaProfessoriOrdinari = new ArrayList<>();
             ArrayList<Docente> listaProfessoriAssociati = new ArrayList<>();
             ArrayList<Docente> listaRicercatori = new ArrayList<>();
             ArrayList<Docente> listaRicercatoriATempoDeterminato = new ArrayList<>();
+            
             while (resultSet.next()) {
                 Docente nextDocente = new Docente();
                 nextDocente.setId(resultSet.getString("id"));
                 nextDocente.setNome(resultSet.getString("nome"));
                 nextDocente.setCognome(resultSet.getString("cognome"));
                 nextDocente.setSesso(resultSet.getString("sesso"));
+                
+                
                 switch (resultSet.getString("ruolo")) {
                     case DB_DOCENTI_RUOLO_PROFESSORE_ORDINARIO:
                         listaProfessoriOrdinari.add(nextDocente);
