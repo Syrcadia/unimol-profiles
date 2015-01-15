@@ -35,21 +35,21 @@
                     for (int i = 0; i < elencoDocenti.getRuoli().size(); i++) {
                         out.print("<div class=''ELENCO_CATEGORIA''>");
                         out.print("<div class=''TITOLO_CATEGORIA''>" + elencoDocenti.getRuoli().get(i) + "</div>");
-                        out.print("</div>");
                         out.print("<ul>");
                         for (int j = 0; j < elencoDocenti.getElencoDocenti().get(i).size(); j++) {
                             nomeDocente = elencoDocenti.getElencoDocenti().get(i).get(j).getCognome() + " " + elencoDocenti.getElencoDocenti().get(i).get(j).getNome();
                             href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getElencoDocenti().get(i).get(j).getId() + "&s=" + elencoDocenti.getElencoDocenti().get(i).get(j).getSesso() + "&nome=" + elencoDocenti.getElencoDocenti().get(i).get(j).getNome() + "&cognome=" + elencoDocenti.getElencoDocenti().get(i).get(j).getCognome();
                             out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                         }
+                        out.print("</ul>");
+                        out.print("</div>");
                     }
                 %>
 
-                </ul>
+
             </div>
         </div>
-    </div>
 
-    <%@include file="../Html/Footer.html" %>
-</body>
+        <%@include file="../Html/Footer.html" %>
+    </body>
 </html>

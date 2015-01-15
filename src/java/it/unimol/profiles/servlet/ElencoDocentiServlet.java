@@ -69,6 +69,9 @@ public class ElencoDocentiServlet extends HttpServlet {
                     + "FROM ruoli ");
 
             while (resultSet.next()) {
+                ArrayList<Docente> nextLista = new ArrayList<>();
+                liste.add(nextLista);
+                ruoli.add(resultSet.getString("nome_ruolo"));
             }
             //DEVO COMBACIARE L'ID DEL RUOLO CONTENUTO IN DOCENTE CON QUELLO CONTENUTO IN RUOLO
             resultSet = statement.executeQuery(""
@@ -151,6 +154,3 @@ public class ElencoDocentiServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 }
-                ArrayList<Docente> nextLista = new ArrayList<>();
-                liste.add(nextLista);
-                ruoli.add(resultSet.getString("nome_ruolo"));
