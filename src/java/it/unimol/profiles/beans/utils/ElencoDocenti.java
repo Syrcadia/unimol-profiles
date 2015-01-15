@@ -7,46 +7,29 @@ import java.util.ArrayList;
  * @author Stefano
  */
 public class ElencoDocenti {
-    private ArrayList<Docente> listaProfessoriOrdinari;
-    private ArrayList<Docente> listaProfessoriAssociati;
-    private ArrayList<Docente> listaRicercatori;
-    private ArrayList<Docente> listaRicercatoriATempoDeterminato;
+    private ArrayList<ArrayList<Docente>> elencoDocenti;
+    private ArrayList<String> ruoli;
+                
     
     public ElencoDocenti(){
         
     }
 
-    public ArrayList<Docente> getListaProfessoriOrdinari() {
-        return listaProfessoriOrdinari;
+    public ArrayList<ArrayList<Docente>> getElencoDocenti() {
+        return elencoDocenti;
     }
 
-    public void setListaProfessoriOrdinari(ArrayList<Docente> listaProfessoriOrdinari) {
-        this.listaProfessoriOrdinari = listaProfessoriOrdinari;
+    public void setElencoDocenti(ArrayList<ArrayList<Docente>> elencoDocenti) {
+        this.elencoDocenti = elencoDocenti;
     }
 
-    public ArrayList<Docente> getListaProfessoriAssociati() {
-        return listaProfessoriAssociati;
+    public ArrayList<String> getRuoli() {
+        return ruoli;
     }
 
-    public void setListaProfessoriAssociati(ArrayList<Docente> listaProfessoriAssociati) {
-        this.listaProfessoriAssociati = listaProfessoriAssociati;
-    }
-
-    public ArrayList<Docente> getListaRicercatori() {
-        return listaRicercatori;
-    }
-
-    public void setListaRicercatori(ArrayList<Docente> listaRicercatori) {
-        this.listaRicercatori = listaRicercatori;
-    }
-
-    public ArrayList<Docente> getListaRicercatoriATempoDeterminato() {
-        return listaRicercatoriATempoDeterminato;
-    }
-
-    public void setListaRicercatoriATempoDeterminato(ArrayList<Docente> listaRicercatoriATempoDeterminato) {
-        this.listaRicercatoriATempoDeterminato = listaRicercatoriATempoDeterminato;
+    public void setRuoli(ArrayList<String> ruoli) {
+        this.ruoli = ruoli;
     }
     
-    
+
 }
