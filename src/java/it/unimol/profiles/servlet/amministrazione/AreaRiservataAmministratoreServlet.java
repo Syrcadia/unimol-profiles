@@ -27,9 +27,12 @@ public class AreaRiservataAmministratoreServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if (!ManagerAutenticazione.getInstance().isAmministratore((String)request.getSession().getAttribute("userID"))) {
-            response.sendError(401, "Utente non autorizzato!");
+        if (request.getSession().getAttribute("isAdmin")==null){
+            request.getSession().setAttribute("isAdmin", false);
+        }
+        if (!(boolean)request.getSession().getAttribute("isAdmin")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspAmministratore/LoginAmministratoreJsp.jsp");
+            dispatcher.forward(request, response);
         }else{
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspAmministratore/AreaRiservataAmministratoreJsp.jsp");
             dispatcher.forward(request, response);
