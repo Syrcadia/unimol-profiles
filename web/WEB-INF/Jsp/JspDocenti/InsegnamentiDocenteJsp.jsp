@@ -34,9 +34,9 @@
                     } else {
                         out.print("<div id='MESSAGGIO_RISORSA_NON_PRESENTE'>");
                         if (docente.getSesso().equalsIgnoreCase("F")) {
-                            out.print("Non è stata ancora configurata la pagina degli insegnamenti per la Prof.ssa " + docente.getNome() + " " + docente.getCognome());
+                            out.print("Non è attualmente disponibile la pagina degli insegnamenti per la Prof.ssa " + docente.getNome() + " " + docente.getCognome());
                         } else {
-                            out.print("Non è stata ancora configurata la pagina degli insegnamenti per il Prof. " + docente.getNome() + " " + docente.getCognome());
+                            out.print("Non è attualmente disponibile la pagina degli insegnamenti per il Prof. " + docente.getNome() + " " + docente.getCognome());
                         }
                         out.print("</div>");
                     }

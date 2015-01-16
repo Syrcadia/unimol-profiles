@@ -49,19 +49,6 @@ body{
     float: right;
 }
 
-#LINK_ELENCO_DOCENTI{
-   position: absolute;
-   top: 200px;
-   left: 25px;
-   z-index: 2;
-   }
-
-#LINK_ELENCO_DOCENTI img{
-    height: 60px;
-}
-   
-
-
 #TITOLO_PAGINA{
     background-color: #0369D2;
     background-image: url('../Images/pattern-titolo.png');
@@ -75,6 +62,25 @@ body{
     z-index: 1;
 }
 
+#LINK_ELENCO_DOCENTI{
+    position: absolute;
+    top: 215px;
+    right: 2.64%;
+    height: 60px;
+    width: 60px;
+    z-index: 2;
+}
+
+#IMMAGINE_ELENCO_DOCENTI{
+    width: 60px;
+    height: 60px;
+    background-image: url('../Images/bottone-elenco-docenti.png');
+}
+
+#IMMAGINE_ELENCO_DOCENTI:hover{
+    background-image: url('../Images/bottone-elenco-docenti-hover.png');
+}
+
 #CONTENUTO_PAGINA{
     background-color: #FFFFFF;
     width:94.75%;
@@ -83,8 +89,8 @@ body{
     margin-right: auto;
 }
 
-
 #FOTO_DOCENTE{
+    padding-top: 10px;
     position:absolute;
     float:left;
     height: 250px;
@@ -113,7 +119,6 @@ body{
     border-bottom: 1px solid #DCDCDC;
     font-size: 14px;
     background: url('../Images/freccia-links.png') no-repeat scroll left center transparent; //aggiunge la freccia nel menu
-
 }
 
 #MENU_SEZIONI a{

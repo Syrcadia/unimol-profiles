@@ -4,8 +4,10 @@ import it.unimol.profiles.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InsegnamentiDocente;
 import it.unimol.profiles.beans.utils.Docente;
+import it.unimol.profiles.exceptions.ErroreConnessioneDocentiUnimol;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,13 +27,13 @@ import org.jsoup.nodes.Document;
  */
 @WebServlet(name = "InsegnamentiDocente", urlPatterns = {"/InsegnamentiDocente"})
 public class InsegnamentiDocenteServlet extends SezioneServlet {
-    
+
     @Override
     protected void setCustomRequestAttributes(HttpServletRequest request, HttpServletResponse response, Docente docente) throws ServletException, IOException {
         try {
             InsegnamentiDocente insegnamentiDocente = this.getInsegnamentiDocente(docente);
             request.setAttribute("insegnamenti_docente", insegnamentiDocente);
-        } catch (RisorsaNonPresenteException ex) {
+        } catch (RisorsaNonPresenteException | ErroreConnessioneDocentiUnimol ex) {
             request.setAttribute("insegnamenti_docente", null);
         }
     }
@@ -41,7 +43,7 @@ public class InsegnamentiDocenteServlet extends SezioneServlet {
         return "WEB-INF/Jsp/JspDocenti/InsegnamentiDocenteJsp.jsp";
     }
 
-    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws RisorsaNonPresenteException {
+    public InsegnamentiDocente getInsegnamentiDocente(Docente docente) throws RisorsaNonPresenteException, ErroreConnessioneDocentiUnimol {
 
         InsegnamentiDocente insegnamentiDocente = null;
         Connection connection = null;
@@ -58,8 +60,12 @@ public class InsegnamentiDocenteServlet extends SezioneServlet {
 
             if (idPaginaInsegnamenti != null) {
                 insegnamentiDocente = new InsegnamentiDocente();
-                Document document = Jsoup.connect("http://docenti.unimol.it/index.php?u=" + idPaginaInsegnamenti + "&id=2").get();
-                insegnamentiDocente.setTestoFormattatoHtml(document.getElementsByClass("insidebox").html());
+                try {
+                    Document document = Jsoup.connect("http://docenti.unimol.it/index.php?u=" + idPaginaInsegnamenti + "&id=2").get();
+                    insegnamentiDocente.setTestoFormattatoHtml(document.getElementsByClass("insidebox").html());
+                } catch (UnknownHostException ex) {
+                    throw new ErroreConnessioneDocentiUnimol();
+                }
             } else {
                 throw new RisorsaNonPresenteException();
             }
