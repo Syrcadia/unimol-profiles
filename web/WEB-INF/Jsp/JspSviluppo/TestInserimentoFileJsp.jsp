@@ -26,7 +26,6 @@
                 <input type="hidden" name="action" value="upload" />
                 <label>File:</label>
                 <input type="file" name="file_utente" />
-                <label>Percorso dove salvare il file:</label>
                 <br />
                 <input type="submit" value="Carica online" />
             </form>
