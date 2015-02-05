@@ -26,7 +26,7 @@
                 <input type="hidden" name="action" value="upload" />
                 <label>File:</label>
                 <input type="file" name="file_utente" />
-                <br />
+                <br/>
                 <input type="submit" value="Carica online" />
             </form>
         </div>
