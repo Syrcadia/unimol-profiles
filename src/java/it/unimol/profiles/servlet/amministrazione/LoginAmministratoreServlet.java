@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Stefano
  */
-@WebServlet(name = "LoginAmministratoreServlet", urlPatterns = {"/LoginAmministratoreServlet"})
+@WebServlet(name = "LoginAmministratore", urlPatterns = {"/LoginAmministratore"})
 public class LoginAmministratoreServlet extends HttpServlet {
 
     /**
@@ -46,6 +46,11 @@ public class LoginAmministratoreServlet extends HttpServlet {
         String nomeAmministratore = request.getParameter("nome_amministratore");
         String password = request.getParameter("password");
 
+        if (nomeAmministratore == null || password == null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspAmministratore/LoginAmministratoreJsp.jsp");
+            dispatcher.forward(request, response);
+        }
+
         //Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, request.getParameterNames().nextElement());
         Connection connection = null;
 
@@ -64,6 +69,7 @@ public class LoginAmministratoreServlet extends HttpServlet {
                 request.getSession().setAttribute("isAdmin", true);
                 response.sendRedirect("AreaRiservataAmministratore");
             } else {
+                request.getSession().setAttribute("isAdmin", false);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/Jsp/JspAmministratore/LoginAmministratoreJsp.jsp");
                 dispatcher.forward(request, response);
             }

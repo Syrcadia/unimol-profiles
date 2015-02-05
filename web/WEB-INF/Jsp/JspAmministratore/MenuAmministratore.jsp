@@ -4,12 +4,11 @@
     Author     : Stefano
 --%>
 
-<div id="MENU_OPERAZIONI">
+<div id="MENU_AMMINISTRATORE">
     <ul>
-        
+        <li><a href="InserimentoNuovoDocente">Home Amministratore</a></li> 
         <li><a href="">Inserisci un nuovo docente</a></li> 
         <li><a href="">Modifica un docente</a></li>
         <li><a href="">Elimina un docente</a></li>
-        
     </ul>
 </div>

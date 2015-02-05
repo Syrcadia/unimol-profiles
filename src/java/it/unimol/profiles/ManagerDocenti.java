@@ -23,23 +23,7 @@ public class ManagerDocenti {
         }
         return singletonManagerDocenti;
     }
-
-    public void setInfoGeneraliDocente(Docente docente, InformazioniGeneraliDocente informazioniGeneraliDocente) throws DocenteInesistenteException {
-
-    }
-
-    public void setCurriculumDocente(Docente docente, CurriculumDocente curriculumDocente) throws DocenteInesistenteException {
-        //TODO
-    }
-
-    public void setPubblicazioniDocente(Docente docente, PubblicazioniDocente PubblicazioniDocente) throws DocenteInesistenteException {
-        //TODO inserire nel db
-    }
-
-    public void setSezionePersonalizzata(Docente docente, SezionePersonalizzata sezionePersonalizzata) throws DocenteInesistenteException {
-        //inserire nel db;
-    }
-
+    
     private void inserisciFile(File file, String directory) {
         /*
          salva il file passato nella cartella identificata dalla stringa directory

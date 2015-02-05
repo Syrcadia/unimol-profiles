@@ -1,3 +1,9 @@
+<%-- 
+    Document   : InserimentoNuovoDocenteJsp
+    Created on : 16-gen-2015, 16.00.04
+    Author     : Stefano
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -7,20 +13,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="Css/stile.css" />
         <title>
-            Login Amministratore
+            Inserimento Nuovo Docente
         </title>
     </head>
     <body>
         <%@include file="../../Html/Header.html" %>
         <div id="TITOLO_PAGINA">
-            Login Amministratore
+            Inserimento Nuovo Docente
         </div>
         <div id="CONTENUTO_PAGINA">
-            <div id="FORM_LOGIN_AMMINISTRATORE">
-                <form name="Login" action="LoginAmministratore" method="POST">
-                    <div id="CAMPO_NOME_AMMINISTRATORE">Nome Amministratore: <input type="text" name="nome_amministratore"></div>
-                    <div id="CAMPO_PASSWORD">Password: <input type="password" name="password"></div>
-                    <div id="BOTTONE_SUBMIT"><input type="submit" value="Login"></div>
+            <%@include file="MenuAmministratore.jsp" %>
+            <div id="CONTENUTO_SEZIONE_SELEZIONATA">
+                <form name="NuovoDocente" action="LoginAmministratore" method="POST">
+                    <div>Nome: <input type="text" name="nome"></div>
+                    <div>Cognome: <input type="text" name="cognome"></div>
+                    <div><input type="submit" value="Inserisci"></div>
                 </form>
             </div>
         </div>

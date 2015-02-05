@@ -11,8 +11,6 @@
 html{
     overflow-y: scroll;
     background-color: #E9EBEC;
-    
-    height: 100%;
 }
 
 body{
@@ -24,8 +22,6 @@ body{
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06); //aggiunge l'ombra al contorno
-    
-    height: 100%;
 }
 
 #HEADER{
@@ -113,8 +109,13 @@ body{
     width: 23%;
     margin-top:250px;
 }
+#MENU_AMMINISTRATORE{
+    float: left;
+    text-align: left;
+    width: 23%;
+}
 
-#MENU_SEZIONI ul li {
+#MENU_SEZIONI ul li, #MENU_AMMINISTRATORE ul li {
     padding-top: 10px;
     padding-bottom: 8px;
     margin-left: -25px;
@@ -125,13 +126,13 @@ body{
     background: url('../Images/freccia-links.png') no-repeat scroll left center transparent; //aggiunge la freccia nel menu
 }
 
-#MENU_SEZIONI a{
+#MENU_SEZIONI a, #MENU_AMMINISTRATORE a{
     color: #737373;
     text-decoration: none;
     margin-left: 15px;
 }
 
-#MENU_SEZIONI a:hover{
+#MENU_SEZIONI a:hover #MENU_AMMINISTRATORE a:hover{
     color: #333333;
 }
 
@@ -143,14 +144,16 @@ body{
 }
 
 #FOOTER{
+    
+    clear: both;
     min-width: 800px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
     text-align: center;
     font-size: 18px;
+    
 }
-
 #LINK_UTILI{
     height: auto;
     width: auto;
