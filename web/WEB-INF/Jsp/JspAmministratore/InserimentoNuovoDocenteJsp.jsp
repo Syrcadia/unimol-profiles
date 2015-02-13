@@ -1,11 +1,16 @@
-<%-- 
-    Document   : InserimentoNuovoDocenteJsp
+<%--     Document   : InserimentoNuovoDocenteJsp
     Created on : 16-gen-2015, 16.00.04
     Author     : Stefano
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    ArrayList<String> ruoli = (ArrayList<String>) request.getAttribute("ruoli");
+    ArrayList<String> dipartimenti = (ArrayList<String>) request.getAttribute("dipartimenti");
 
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,10 +29,56 @@
         <div id="CONTENUTO_PAGINA">
             <%@include file="MenuAmministratore.jsp" %>
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
-                <form name="NuovoDocente" action="LoginAmministratore" method="POST">
-                    <div>Nome: <input type="text" name="nome"></div>
-                    <div>Cognome: <input type="text" name="cognome"></div>
-                    <div><input type="submit" value="Inserisci"></div>
+
+                <%                    if ((String) request.getAttribute("messaggio") != null) {
+                        out.println("<div id='MESSAGGIO'> " + (String) request.getAttribute("messaggio") + "</div>");
+                    }
+                %>
+                <form name="NuovoDocente" action="InserimentoNuovoDocente" method="POST">
+
+                    <input type="hidden" name="action" value="inserisci">
+                    <fieldset>
+                        <div>
+                            <input type="text" name="nome" placeholder="Nome" required>
+                        </div>
+                        <div>
+                            <input type="text" name="cognome" placeholder="Cognome" required>
+                        </div>
+                        <div>
+                            <select name="ruolo" required>
+                                <option value="">Ruolo Docente</option>
+                                <%                                    for (int i = 0; i < ruoli.size(); i++) {
+                                        out.println("<option value='" + i + "'>" + ruoli.get(i) + "</option>");
+                                    }
+                                %>
+                            </select> <a href="" title="Puoi inserire nuovi ruoli attraverso l'apposita funzionalità">?</a>
+                        </div>
+                        <div>
+                            <select name="dipartimento" required>
+                                <option value="">Dipartimento</option>
+                                <%
+                                    for (int i = 0; i < dipartimenti.size(); i++) {
+                                        out.println("<option value='" + i + "'>" + dipartimenti.get(i) + "</option>");
+                                    }
+                                %>
+                            </select> <a href="" title="Puoi inserire nuovi dipartimenti attraverso l'apposita funzionalità">?</a>
+                        </div>
+                        <div>
+                            <select name="sesso" required>
+                                <option value="">Sesso</option>
+                                <option value='M'>Maschio</option>
+                                <option value='F'>Femmina</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input name="password" pattern=".{8,}" placeholder="Password Utente" required> <a href="" title="La password deve contenere almeno 8 caratteri">?</a>
+                        </div>
+                        <div>
+                            <input type="submit" value="Inserisci">
+                        </div>
+
+                    </fieldset>
+
                 </form>
             </div>
         </div>

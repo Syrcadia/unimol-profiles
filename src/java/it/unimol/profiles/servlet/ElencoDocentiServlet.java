@@ -73,9 +73,9 @@ public class ElencoDocentiServlet extends HttpServlet {
                 liste.add(nextLista);
                 ruoli.add(resultSet.getString("nome_ruolo"));
             }
-            //DEVO COMBACIARE L'ID DEL RUOLO CONTENUTO IN DOCENTE CON QUELLO CONTENUTO IN RUOLO
+            
             resultSet = statement.executeQuery(""
-                    + "SELECT docenti.id, docenti.nome, docenti.cognome, docenti.dipartimento, docenti.id_ruolo, docenti.id_pagina_insegnamenti, docenti.nome_foto_profilo, docenti.sesso, ruoli.nome_ruolo "
+                    + "SELECT docenti.id, docenti.nome, docenti.cognome, docenti.id_ruolo, docenti.id_pagina_insegnamenti, docenti.nome_foto_profilo, docenti.sesso, ruoli.nome_ruolo "
                     + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
             );
             

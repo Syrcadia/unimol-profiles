@@ -20,7 +20,7 @@ public class TestInserimentoFileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {  
-            ManagerFileSystem.inserisciFile(request,null);
+            ManagerFileSystem.inserisciFile(request,null,this);
             RequestDispatcher dispatcher = request.getRequestDispatcher("ElencoDocenti");
             dispatcher.forward(request, response);
         } catch (UploadNonValidoException ex) {

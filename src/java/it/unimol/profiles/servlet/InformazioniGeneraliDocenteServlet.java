@@ -44,14 +44,18 @@ public class InformazioniGeneraliDocenteServlet extends SezioneServlet {
             Statement statement = connection.createStatement();
             ResultSet resultSet;
 
-            resultSet = statement.executeQuery(""
-                    + "SELECT docenti.nome, docenti.cognome, docenti.dipartimento, ruoli.nome_ruolo "
-                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
+//            resultSet = statement.executeQuery(""
+//                    + "SELECT docenti.nome, docenti.cognome, docenti.dipartimento, ruoli.nome_ruolo "
+//                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
+//                    + "WHERE docenti.id = " + docente.getId());
+             resultSet = statement.executeQuery(""
+                    + "SELECT docenti.nome, docenti.cognome, dipartimenti.nome_dipartimento, ruoli.nome_ruolo "
+                    + "FROM ((docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id) INNER JOIN dipartimenti ON docenti.id_dipartimento = dipartimenti.id)"
                     + "WHERE docenti.id = " + docente.getId());
             resultSet.next();
             informazioniGeneraliDocente.setNome(resultSet.getString("nome"));
             informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
-            informazioniGeneraliDocente.setDipartimento(resultSet.getString("dipartimento"));
+            informazioniGeneraliDocente.setDipartimento(resultSet.getString("nome_dipartimento"));
             informazioniGeneraliDocente.setRuolo(resultSet.getString("nome_ruolo"));
 
             resultSet = statement.executeQuery(""
