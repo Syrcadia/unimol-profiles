@@ -25,7 +25,7 @@
             <form method="post" action="TestInserimentoFile" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="upload" />
                 <label>File:</label>
-                <input type="file" name="file_utente" />
+                <input type="file" name="file" />
                 <br/>
                 <input type="submit" value="Carica online" />
             </form>

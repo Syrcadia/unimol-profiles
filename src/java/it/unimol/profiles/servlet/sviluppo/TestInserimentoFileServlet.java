@@ -5,6 +5,7 @@ import it.unimol.profiles.exceptions.UploadNonValidoException;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +16,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Stefano
  */
 @WebServlet(name = "TestInserimentoFile", urlPatterns = {"/TestInserimentoFile"})
+@MultipartConfig
 public class TestInserimentoFileServlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {  
-            ManagerFileSystem.inserisciFile(request,null,this);
+        try {
+            ManagerFileSystem.inserisciFile(request,null);
             RequestDispatcher dispatcher = request.getRequestDispatcher("ElencoDocenti");
             dispatcher.forward(request, response);
         } catch (UploadNonValidoException ex) {

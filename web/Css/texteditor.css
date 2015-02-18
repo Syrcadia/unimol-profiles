@@ -1,0 +1,18 @@
+a{
+    color:black;
+}
+
+#wysihtml5-textarea {
+    height: 280px;
+    border: 1px solid black;
+    box-sizing: boder-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    font-family: Verdana;
+    font-size: 11px;
+  }
+  
+  .wysihtml5-command-active {
+    font-weight: bold;
+  }

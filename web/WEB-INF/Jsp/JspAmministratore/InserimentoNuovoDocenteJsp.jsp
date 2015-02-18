@@ -38,6 +38,7 @@
 
                     <input type="hidden" name="action" value="inserisci">
                     <fieldset>
+                        <legend>Inserisci nuovo docente</legend>
                         <div>
                             <input type="text" name="nome" placeholder="Nome" required>
                         </div>
@@ -51,7 +52,8 @@
                                         out.println("<option value='" + i + "'>" + ruoli.get(i) + "</option>");
                                     }
                                 %>
-                            </select> <a href="" title="Puoi inserire nuovi ruoli attraverso l'apposita funzionalità">?</a>
+                            </select> 
+                            <a href="#" title="Puoi inserire nuovi ruoli attraverso l'apposita funzionalità">?</a>
                         </div>
                         <div>
                             <select name="dipartimento" required>
@@ -61,7 +63,8 @@
                                         out.println("<option value='" + i + "'>" + dipartimenti.get(i) + "</option>");
                                     }
                                 %>
-                            </select> <a href="" title="Puoi inserire nuovi dipartimenti attraverso l'apposita funzionalità">?</a>
+                            </select> 
+                            <a href="#" title="Puoi inserire nuovi dipartimenti attraverso l'apposita funzionalità">?</a>
                         </div>
                         <div>
                             <select name="sesso" required>
@@ -71,7 +74,8 @@
                             </select>
                         </div>
                         <div>
-                            <input name="password" pattern=".{8,}" placeholder="Password Utente" required> <a href="" title="La password deve contenere almeno 8 caratteri">?</a>
+                            <input name="password" pattern=".{8,}" placeholder="Password Utente" required> 
+                            <a href="#" title="La password deve contenere almeno 8 caratteri">?</a>
                         </div>
                         <div>
                             <input type="submit" value="Inserisci">
