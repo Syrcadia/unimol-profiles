@@ -31,13 +31,17 @@
             <div id="CONTENUTO_SEZIONE_SELEZIONATA">
                 <div id="INFORMAZIONI_GENERALI">
                     <ul>
-                        <%                            out.println("<li>Nome: " + informazioniGeneraliDocente.getNome() + "</li>");
-                            out.println("<li>Cognome: " + informazioniGeneraliDocente.getCognome() + "</li>");
-                            out.println("<li>Dipartimento: " + informazioniGeneraliDocente.getDipartimento() + "</li>");
-                            out.println("<li>Ruolo: " + informazioniGeneraliDocente.getRuolo() + "</li>");
+                        <%  out.println("<li><div class='TITOLO_INFORMAZIONE'>Nome:</div>"
+                                + " " + informazioniGeneraliDocente.getNome() + "</li>");
+                            out.println("<li><div class='TITOLO_INFORMAZIONE'>Cognome:</div>"
+                                    + " " + informazioniGeneraliDocente.getCognome() + "</li>");
+                            out.println("<li><div class='TITOLO_INFORMAZIONE'>Dipartimento:</div>"
+                                    + " " + informazioniGeneraliDocente.getDipartimento() + "</li>");
+                            out.println("<li><div class='TITOLO_INFORMAZIONE'>Ruolo:</div>"
+                                    + " " + informazioniGeneraliDocente.getRuolo() + "</li>");
 
                             if (informazioniGeneraliDocente.getEmail() != null && informazioniGeneraliDocente.getEmail().size() != 0) {
-                                out.println("<li>Email:");
+                                out.println("<li><div class='TITOLO_INFORMAZIONE'>Email:</div>");
                                 for (int i = 0; i < informazioniGeneraliDocente.getEmail().size(); i++) {
                                     out.println("<div class='email'>" + informazioniGeneraliDocente.getEmail().get(i) + "</div>");
                                 }
@@ -45,7 +49,7 @@
                             }
 
                             if (informazioniGeneraliDocente.getTelefono() != null && informazioniGeneraliDocente.getTelefono().size() != 0) {
-                                out.println("<li>Contatti telefonici:");
+                                out.println("<li><div class='TITOLO_INFORMAZIONE'>Contatti telefonici:</div>");
                                 for (int i = 0; i < informazioniGeneraliDocente.getTelefono().size(); i++) {
                                     out.println("<div class='telefono'>" + informazioniGeneraliDocente.getTelefono().get(i) + "</div>");
                                 }

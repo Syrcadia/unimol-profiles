@@ -109,6 +109,7 @@
                         <fieldset>
                             <legend>Modifica Ruolo</legend>
                             <input type="hidden" name="action" value="modifica_ruolo">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
                             <select name="ruoli" required>
                                 <option value="">Seleziona il nuovo ruolo</option>
                                 <%

@@ -84,7 +84,7 @@ body{
 #CONTENUTO_PAGINA{
     background-color: #FFFFFF;
     width:94.75%;
-    height: 100%;
+    height: 440px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -144,14 +144,14 @@ body{
 }
 
 #FOOTER{
-    
     clear: both;
     min-width: 800px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
+    padding-top: 30px;
     
 }
 #LINK_UTILI{
@@ -190,19 +190,88 @@ body{
 
 #FORM_LOGIN_AMMINISTRATORE{
     width: 200px;
-    margin: 0 auto;
-    padding-top: 30px;
+    margin: auto;
+    padding-top: 145px;
 }
+
 #FORM_LOGIN_AMMINISTRATORE #BOTTONE_SUBMIT{
     width: 150px;
-    padding-top: 5px;
-    margin: 0 auto;
+    padding-top: 15px;
+    margin: auto;
 }
 #FORM_LOGIN_AMMINISTRATORE input{
     width: 100%;
     line-height: 20px;
 }
 
+.TITOLO_CATEGORIA{
+    padding-top: 15px;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.ELENCO_CATEGORIA{
+    padding-left: 15px;
+}
+
+.ELENCO_CATEGORIA ul li{
+    list-style: circle;
+    list-style-type: circle;
+}
+
+
+#CAMPO_NOME_AMMINISTRATORE{
+    font-weight: bold;
+}
+
+#CAMPO_PASSWORD{
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+#TESTO_CURRICULUM{
+    padding-top: 10px;
+}
+
+#LINK_FILE{
+    text-align: center;
+    font-size: 25px;
+}
+
+#LINK_FILE a{
+    text-decoration: none;
+}
+
+#IMMAGINE_DOWNLOAD_PDF{
+    alignment-baseline: central;
+}
+
+#NOME_INSERIMENTO_DOCENTE{
+    padding-top: 5px;
+    height: 20px;
+}
+
+#COGNOME_INSERIMENTO_DOCENTE{
+    padding-left: 150px;
+    margin-top: -20px;
+}
+
+#RUOLO_INSERIMENTO_DOCENTE, #DIPARTIMENTO_INSERIMENTO_DOCENTE, 
+#SESSO_INSERIMENTO_DOCENTE, #PASSWORD_INSERIMENTO_DOCENTE, #INSERISCI{
+    padding-top: 5px;
+}
+
+.TITOLO_INFORMAZIONE{
+    font-style: oblique;
+    font-weight: bold;
+}
+
+#INFORMAZIONI_GENERALI ul li{
+    list-style: none;
+    list-style-type: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
 
 /*@media screen and (max-width: 900px){

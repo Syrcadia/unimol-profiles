@@ -37,7 +37,8 @@
                         if (curriculumDocente.getPdfLink() != null) {
                             out.print(""
                                     + "<div id='LINK_FILE'>"
-                                    + "<a href='" + curriculumDocente.getPdfLink() + "'>Scarica PDF</a>"
+                                    + "<a href='" + curriculumDocente.getPdfLink() + "'>Scarica PDF"
+                                    + "<div id='IMMAGINE_DOWNLOAD_PDF'><img src='Images/pdf-download.png'></div></a>" 
                                     + "</div>");
                         }
                         if (curriculumDocente.getHtmlLink() != null) {

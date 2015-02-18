@@ -38,24 +38,22 @@
 
                     <input type="hidden" name="action" value="inserisci">
                     <fieldset>
-                        <legend>Inserisci nuovo docente</legend>
-                        <div>
+                        <div id="NOME_INSERIMENTO_DOCENTE">
                             <input type="text" name="nome" placeholder="Nome" required>
                         </div>
-                        <div>
+                        <div id="COGNOME_INSERIMENTO_DOCENTE">
                             <input type="text" name="cognome" placeholder="Cognome" required>
                         </div>
-                        <div>
+                        <div id="RUOLO_INSERIMENTO_DOCENTE">
                             <select name="ruolo" required>
                                 <option value="">Ruolo Docente</option>
                                 <%                                    for (int i = 0; i < ruoli.size(); i++) {
                                         out.println("<option value='" + i + "'>" + ruoli.get(i) + "</option>");
                                     }
                                 %>
-                            </select> 
-                            <a href="#" title="Puoi inserire nuovi ruoli attraverso l'apposita funzionalità">?</a>
+                            </select> <a href="" title="Puoi inserire nuovi ruoli attraverso l'apposita funzionalità">?</a>
                         </div>
-                        <div>
+                        <div id="DIPARTIMENTO_INSERIMENTO_DOCENTE">
                             <select name="dipartimento" required>
                                 <option value="">Dipartimento</option>
                                 <%
@@ -63,21 +61,19 @@
                                         out.println("<option value='" + i + "'>" + dipartimenti.get(i) + "</option>");
                                     }
                                 %>
-                            </select> 
-                            <a href="#" title="Puoi inserire nuovi dipartimenti attraverso l'apposita funzionalità">?</a>
+                            </select> <a href="" title="Puoi inserire nuovi dipartimenti attraverso l'apposita funzionalità">?</a>
                         </div>
-                        <div>
+                        <div id="SESSO_INSERIMENTO_DOCENTE">
                             <select name="sesso" required>
                                 <option value="">Sesso</option>
                                 <option value='M'>Maschio</option>
                                 <option value='F'>Femmina</option>
                             </select>
                         </div>
-                        <div>
-                            <input name="password" pattern=".{8,}" placeholder="Password Utente" required> 
-                            <a href="#" title="La password deve contenere almeno 8 caratteri">?</a>
+                        <div id="PASSWORD_INSERIMENTO_DOCENTE">
+                            <input name="password" pattern=".{8,}" placeholder="Password Utente" required> <a href="" title="La password deve contenere almeno 8 caratteri">?</a>
                         </div>
-                        <div>
+                        <div id="INSERISCI">
                             <input type="submit" value="Inserisci">
                         </div>
 
