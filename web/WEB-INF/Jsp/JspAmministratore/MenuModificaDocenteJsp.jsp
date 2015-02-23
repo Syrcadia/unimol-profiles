@@ -129,6 +129,7 @@
                         <fieldset>
                             <legend>Modifica Dipartimento</legend>
                             <input type="hidden" name="action" value="modifica_dipartimento">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
                             <select name="dipartimenti" required>
                                 <option value="">Seleziona il nuovo dipartimento</option>
                                 <%
@@ -149,6 +150,7 @@
                             <legend>Configura pagina insegnamenti</legend>
                             <input type="hidden" name="action" value="configura_pagina_insegnamenti">
                             <input type="text" name="pagina_insegnamenti" placeholder="link pagina insegnamenti" required>
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
                             <input type="submit" value="Configura">
                             <a href="#" title="Inserire qui il link alla attuale pagina degli insegnamenti del relativo docente del sito docenti.unimol.it. (Esempio: 'http://docenti.unimol.it/index.php?u=mario.rossi&id=0')">?</a>
                         </fieldset>
@@ -160,12 +162,14 @@
                         <fieldset>
                             <legend>Modifica curriculum</legend>
                             <input type="hidden" name="action" value="modifica_curriculum">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
+                            <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
+                            
                             <label>File PDF:</label>
                             <input type="file" name="file" required/>
                             <input type="submit" value="Salva" />
-
                         </fieldset>
-
                     </form>
                 </div>
                 <div class="form_modifica_docente">
