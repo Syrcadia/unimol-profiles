@@ -21,12 +21,10 @@ import javax.servlet.http.Part;
 
 public class ManagerFileSystem {
 
-    private static final String radice="C:/UnimolProfilesData";
     
     public static void inserisciFile(HttpServletRequest request, String destinazioneFile, String nomeFile) throws IOException, ServletException, UploadNonValidoException {
 
-//        String appPath = request.getServletContext().getRealPath("");
-        String appPath=radice;
+        String appPath = request.getServletContext().getRealPath("");
         String savePath = appPath + File.separator + destinazioneFile;
         
         Log.log(savePath);

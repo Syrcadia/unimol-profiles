@@ -145,14 +145,37 @@ public class ModificaDocenteServlet extends ServletAmministratore {
 
                         break;
                     case "modifica_pubblicazioni":
+                        String percorsoFileBib = "Risorse" + File.separator + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + "_" + idDocente + File.separator + "pubblicazioni";
+                        String nomeFileBib = "pubblicazioni" + "_" + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + ".bib";
+                        ManagerFileSystem.inserisciFile(request, percorsoFileBib, nomeFileBib);
+                        
+                        
+
                         break;
                     case "modifica_orario_di_ricevimento":
                         break;
                     case "modifica_sezione_personalizzata":
                         break;
                     case "modifica_immagine_profilo":
+
+                        String percorsoFotoProfilo = "Risorse" + File.separator + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + "_" + idDocente + File.separator + "foto_profilo";
+                        String nomeFotoProfilo = null;
+                        for (Part part : request.getParts()) {
+                            if ("file".equals(part.getName())) {
+                                nomeFotoProfilo = part.getSubmittedFileName();
+                                break;
+                            }
+                        }
+                        ManagerFileSystem.inserisciFile(request, percorsoFotoProfilo, nomeFotoProfilo);
+                        
+                        statement.executeUpdate(""
+                                + "UPDATE docenti "
+                                + "SET nome_foto_profilo='" + nomeFotoProfilo + "' "
+                                + "WHERE id='" + idDocente + "' ");
+
+                        
                         break;
-                    
+
                 }
 
                 statement.close();

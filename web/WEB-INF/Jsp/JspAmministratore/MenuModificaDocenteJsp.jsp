@@ -173,10 +173,13 @@
                     </form>
                 </div>
                 <div class="form_modifica_docente">
-                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST" enctype="multipart/form-data">
                         <fieldset>
                             <legend>Modifica pubblicazioni</legend>
                             <input type="hidden" name="action" value="modifica_pubblicazioni">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
+                            <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
                             <label>File .bib:</label>
                             <input type="file" name="file" required/>
                             <input type="submit" value="Salva" />
@@ -221,10 +224,14 @@
                     </form>
                 </div>
                 <div class="form_modifica_docente">
-                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST" enctype="multipart/form-data">
                         <fieldset>
                             <legend>Modifica immagine profilo</legend>
                             <input type="hidden" name="action" value="modifica_immagine_profilo">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
+                            <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
+                            
                             <label>File Immagine:</label>
                             <input type="file" name="file" required/>
                             <input type="submit" value="Salva"/>
