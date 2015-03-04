@@ -1,7 +1,14 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="it.unimol.profiles.beans.utils.ElencoSezioniPersonalizzate"%>
 <%
     ElencoSezioniPersonalizzate elencoSezioniPersonalizzate = (ElencoSezioniPersonalizzate) request.getAttribute("elenco_sezioni_personalizzate");
-    String stringaAttributiUrl = "id=" + docente.getId() + "&s=" + docente.getSesso() + "&nome=" + docente.getNome() + "&cognome=" + docente.getCognome();
+    String stringaAttributiUrl = ""
+            + "id=" + URLEncoder.encode(docente.getId(), "UTF-8")
+            + "&s=" + URLEncoder.encode(docente.getSesso(), "UTF-8")
+            + "&nome=" + URLEncoder.encode(docente.getNome(), "UTF-8")
+            + "&cognome=" + URLEncoder.encode(docente.getCognome(), "UTF-8");
+
+
 %>
 <div id="MENU_SEZIONI">
     <ul>

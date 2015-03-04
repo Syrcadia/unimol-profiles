@@ -1,10 +1,11 @@
 package it.unimol.profiles.servlet.amministrazione;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,14 +57,17 @@ public class LoginAmministratoreServlet extends HttpServlet {
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet;
-
-            resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT * "
                     + "FROM amministratori "
-                    + "WHERE nome='" + nomeAmministratore + "' "
-                    + "AND password='" + password + "'");
+                    + "WHERE nome=? "
+                    + "AND password=?");
+            preparedStatement.setString(1, nomeAmministratore);
+            preparedStatement.setString(2, password);
+            
+            ResultSet resultSet;
+
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 request.getSession().setAttribute("isAdmin", true);
@@ -75,7 +79,7 @@ public class LoginAmministratoreServlet extends HttpServlet {
             }
 
             resultSet.close(); //non dimenticare 
-            statement.close(); //queste due istruzioni!!!
+            preparedStatement.close(); //queste due istruzioni!!!
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?

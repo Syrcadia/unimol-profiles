@@ -154,7 +154,6 @@
                             <input type="submit" value="Configura">
                             <a href="#" title="Inserire qui il link alla attuale pagina degli insegnamenti del relativo docente del sito docenti.unimol.it. (Esempio: 'http://docenti.unimol.it/index.php?u=mario.rossi&id=0')">?</a>
                         </fieldset>
-
                     </form>
                 </div>
                 <div class="form_modifica_docente">
@@ -165,7 +164,7 @@
                             <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
                             <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
                             <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
-                            
+
                             <label>File PDF:</label>
                             <input type="file" name="file" required/>
                             <input type="submit" value="Salva" />
@@ -188,16 +187,19 @@
                     </form>
                 </div>
                 <div class="form_modifica_docente">
-                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST" enctype="multipart/form-data">
                         <fieldset>
                             <legend>Modifica orario di ricevimento</legend>
                             <input type="hidden" name="action" value="modifica_orario_di_ricevimento">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
+                            <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
                             <div id="wysihtml5-toolbar" style="display: none;">
                                 <a data-wysihtml5-command="bold">bold</a>
                                 <a data-wysihtml5-command="italic">italic</a>
 
                             </div>
-                            <textarea rows="20" cols="50" id="wysihtml5-textarea" name="orario_ricevimento" required>
+                            <textarea rows="20" cols="50" id="wysihtml5-textarea" name="file" required>
                                 
                             </textarea>
                             <input type="submit" value="Salva">
@@ -205,12 +207,68 @@
 
                     </form>
                 </div>
+
+                <div class="form_modifica_docente">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                        <fieldset>
+                            <legend>Crea una nuova sezione personalizzata</legend>
+                            <input type="hidden" name="action" value="inserisci_sezione_personalizzata">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="text" name="nome_sezione" placeholder="Nome sezione" required>
+                            <input type="submit" value="Inserisci" />
+                        </fieldset>
+                    </form>
+                </div>
+
                 <div class="form_modifica_docente">
                     <form name="modifica_docente" action="ModificaDocente" method="POST">
                         <fieldset>
                             <legend>Modifica una sezione personalizzata</legend>
                             <input type="hidden" name="action" value="modifica_sezione_personalizzata">
-                            <select name="dipartimenti" required>
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <select name="sezioni" required>
+                                <option value="">Seleziona la sezione da modificare</option>
+                                <%
+                                    for (int i = 0; i < elencoSezioniPersonalizzate.size(); i++) {
+                                        out.println("<option value='" + elencoSezioniPersonalizzate.getIdSezione(i) + "'>" + elencoSezioniPersonalizzate.getNomeSezione(i) + "</option>");
+                                    }
+                                %>
+                            </select>
+                            <input type="submit" value="Modifica" />
+                        </fieldset>
+
+                    </form>
+                </div>
+
+                <div class="form_modifica_docente">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                        <fieldset>
+                            <legend>Elimina una sezione personalizzata</legend>
+                            <input type="hidden" name="action" value="elimina_sezione_personalizzata">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>"> 
+                            <select name="sezioni" required>
+                                <option value="">Seleziona la sezione da eliminare</option>
+                                <%
+                                    for (int i = 0; i < elencoSezioniPersonalizzate.size(); i++) {
+                                        out.println("<option value='" + elencoSezioniPersonalizzate.getIdSezione(i) + "'>" + elencoSezioniPersonalizzate.getNomeSezione(i) + "</option>");
+                                    }
+                                %>
+                            </select>
+                            <input type="submit" value="Elimina" />
+                        </fieldset>
+
+                    </form>
+                </div>
+
+                <div class="form_modifica_docente">
+                    <form name="modifica_docente" action="ModificaDocente" method="POST">
+                        <fieldset>
+                            <legend>Modifica una sezione personalizzata</legend>
+                            <input type="hidden" name="action" value="modifica_sezione_personalizzata">
+                            <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
+                            <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
+                            <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
+                            <select name="sezioni" required>
                                 <option value="">Seleziona la sezione da modificare</option>
                                 <%
                                     for (int i = 0; i < elencoSezioniPersonalizzate.size(); i++) {
@@ -231,7 +289,7 @@
                             <input type="hidden" name="id_docente" value="<%out.print(docente.getId());%>">
                             <input type="hidden" name="nome_docente" value="<%out.print(docente.getNome());%>">
                             <input type="hidden" name="cognome_docente" value="<%out.print(docente.getCognome());%>">
-                            
+
                             <label>File Immagine:</label>
                             <input type="file" name="file" required/>
                             <input type="submit" value="Salva"/>

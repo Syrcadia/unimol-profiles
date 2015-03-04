@@ -1,6 +1,6 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.ContenutoFile;
 import it.unimol.profiles.beans.pagine.docente.sezioniPersonalizzate.ContenutoFoto;
@@ -10,6 +10,7 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -50,34 +51,42 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT * "
                     + "FROM sezioni_docenti "
-                    + "WHERE id_sezione = " + idSezione + " "
-                    + "AND id_docente = " + docente.getId());
+                    + "WHERE id_sezione = ? "
+                    + "AND id_docente = ?");
+            preparedStatement.setString(1, Integer.toString(idSezione));
+            preparedStatement.setString(2, docente.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new RisorsaNonPresenteException();
             }
             sezionePersonalizzata.setNomeSezione(resultSet.getString("nome_sezione"));
             sezionePersonalizzata.setIdSezione(resultSet.getString("id_sezione"));
-            String percorsoCartellaSezione = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/sezione_" + sezionePersonalizzata.getNomeSezione().replaceAll(" ", "_").toLowerCase() + "_" + sezionePersonalizzata.getIdSezione();
-            resultSet = statement.executeQuery(""
+            String percorsoCartellaSezione = "Risorse/" + docente.getId() + "/sezione_" + sezionePersonalizzata.getIdSezione();
+
+            preparedStatement = connection.prepareStatement(""
                     + "SELECT id_risorsa, tipo_risorsa, ordine "
                     + "FROM contenuti "
-                    + "WHERE id_sezione = " + idSezione + " "
+                    + "WHERE id_sezione = ? "
                     + "ORDER BY ordine");
+            preparedStatement.setString(1, Integer.toString(idSezione));
+
+            resultSet = preparedStatement.executeQuery();
 
             ResultSet auxResultSet = null;
-            Statement auxStatement = connection.createStatement();
+            PreparedStatement auxPreparedStatement;
 
             while (resultSet.next()) {
                 switch (resultSet.getString("tipo_risorsa")) {
                     case "testo":
-                        auxResultSet = auxStatement.executeQuery(""
+                        auxPreparedStatement = connection.prepareStatement(""
                                 + "SELECT nome_testo "
                                 + "FROM testi "
-                                + "WHERE id = " + resultSet.getString("id_risorsa"));
+                                + "WHERE id = ?");
+                        auxPreparedStatement.setString(1, resultSet.getString("id_risorsa"));
+                        auxResultSet = auxPreparedStatement.executeQuery();
                         auxResultSet.next();
                         ContenutoTesto contenutoTesto = new ContenutoTesto();
                         contenutoTesto.setLinkHtml(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_testo"));
@@ -85,10 +94,12 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
                         sezionePersonalizzata.add(contenutoTesto);
                         break;
                     case "file":
-                        auxResultSet = auxStatement.executeQuery(""
+                        auxPreparedStatement = connection.prepareStatement(""
                                 + "SELECT nome_file, descrizione, estensione "
                                 + "FROM files "
-                                + "WHERE id = " + resultSet.getString("id_risorsa"));
+                                + "WHERE id = ?");
+                        auxPreparedStatement.setString(1, resultSet.getString("id_risorsa"));
+                        auxResultSet = auxPreparedStatement.executeQuery();
                         auxResultSet.next();
                         ContenutoFile contenutoFile = new ContenutoFile();
                         contenutoFile.setFileLink(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_file"));
@@ -97,10 +108,12 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
                         sezionePersonalizzata.add(contenutoFile);
                         break;
                     case "foto":
-                        auxResultSet = auxStatement.executeQuery(""
+                        auxPreparedStatement = connection.prepareStatement(""
                                 + "SELECT nome_foto, descrizione "
                                 + "FROM foto "
-                                + "WHERE id= " + resultSet.getString("id_risorsa"));
+                                + "WHERE id= ?");
+                        auxPreparedStatement.setString(1, resultSet.getString("id_risorsa"));
+                        auxResultSet = auxPreparedStatement.executeQuery();
                         auxResultSet.next();
                         ContenutoFoto contenutoFoto = new ContenutoFoto();
                         contenutoFoto.setLinkFoto(percorsoCartellaSezione + "/" + auxResultSet.getString("nome_foto"));
@@ -114,7 +127,7 @@ public class SezionePersonalizzataServlet extends SezioneServlet {
                 auxResultSet.close();
             }
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?

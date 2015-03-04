@@ -8,8 +8,6 @@
 <%
     ArrayList<String> ruoli = (ArrayList<String>) request.getAttribute("ruoli");
     ArrayList<String> dipartimenti = (ArrayList<String>) request.getAttribute("dipartimenti");
-
-
 %>
 <!DOCTYPE html>
 <html>

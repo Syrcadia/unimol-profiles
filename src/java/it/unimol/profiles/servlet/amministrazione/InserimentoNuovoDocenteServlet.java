@@ -1,12 +1,12 @@
 package it.unimol.profiles.servlet.amministrazione;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
+import it.unimol.profiles.servlet.sviluppo.Log;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,14 +48,22 @@ public class InserimentoNuovoDocenteServlet extends ServletAmministratore {
         Connection connection = null;
 
         try {
+            
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-
-            statement.executeUpdate(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "INSERT INTO docenti (nome,cognome,id_dipartimento,id_ruolo,sesso,password) "
-                    + "VALUES ('" + nome + "','" + cognome + "','" + dipartimento + "','" + ruolo + "','" + sesso + "','" + password + "') ");
+                    + "VALUES (?,?,?,?,?,?) ");
+            preparedStatement.setString(1,nome);
+            preparedStatement.setString(2,cognome);
+            preparedStatement.setString(3,dipartimento);
+            preparedStatement.setString(4,ruolo);
+            preparedStatement.setString(5,sesso);
+            preparedStatement.setString(6,password);
 
-            statement.close();
+            
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
             
             
             

@@ -1,6 +1,6 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InsegnamentiDocente;
 import it.unimol.profiles.beans.utils.Docente;
@@ -9,6 +9,7 @@ import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -49,11 +50,12 @@ public class InsegnamentiDocenteServlet extends SezioneServlet {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT id_pagina_insegnamenti "
                     + "FROM docenti "
-                    + "WHERE id = " + docente.getId());
+                    + "WHERE id = ?");
+            preparedStatement.setString(1, docente.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
             String idPaginaInsegnamenti = resultSet.getString("id_pagina_insegnamenti");
@@ -70,7 +72,7 @@ public class InsegnamentiDocenteServlet extends SezioneServlet {
                 throw new RisorsaNonPresenteException();
             }
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?

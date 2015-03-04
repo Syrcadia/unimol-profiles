@@ -1,11 +1,14 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.beans.utils.ElencoSezioniPersonalizzate;
 import static it.unimol.profiles.servlet.SezioneServlet.PERCORSO_FOTO_PROFILO_DEFAULT;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,22 +32,25 @@ public abstract class HandlerDocenteServlet extends HttpServlet {
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet;
-            resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT * "
                     + "FROM docenti "
                     + "WHERE "
-                    + "id =" + docente.getId() + " "
-                    + "AND nome ='" + docente.getNome() + "' "
-                    + "AND cognome ='" + docente.getCognome() + "' "
-                    + "AND sesso ='" + docente.getSesso() + "'"
+                    + "id =? "
+                    + "AND nome =? "
+                    + "AND cognome =? "
+                    + "AND sesso =?"
             );
-
+            preparedStatement.setString(1, docente.getId());
+            preparedStatement.setString(2, docente.getNome());
+            preparedStatement.setString(3, docente.getCognome());
+            preparedStatement.setString(4, docente.getSesso());
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
             esisteDocente = resultSet.next();
 
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
@@ -77,24 +83,26 @@ public abstract class HandlerDocenteServlet extends HttpServlet {
                 + "non è presente nel database";
     }
 
-    protected String getPercorsoFotoProfilo(Docente docente) { //ritorna la posizione della foto
+    protected String getPercorsoFotoProfilo(Docente docente) throws UnsupportedEncodingException { //ritorna la posizione della foto
         Connection connection = null;
         String nomeFotoProfilo = null;
         String fotoPath;
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT nome_foto_profilo "
                     + "FROM docenti "
-                    + "WHERE id = " + docente.getId());
+                    + "WHERE id = ?");
+            preparedStatement.setString(1, docente.getId());
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
             nomeFotoProfilo = resultSet.getString("nome_foto_profilo");
 
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
@@ -111,7 +119,7 @@ public abstract class HandlerDocenteServlet extends HttpServlet {
             return PERCORSO_FOTO_PROFILO_DEFAULT;
         } else {
             fotoPath = "Risorse/"
-                    + docente.getNomeCartella()
+                    + URLEncoder.encode(docente.getNomeCartella(), "UTF-8")
                     + "/foto_profilo/"
                     + nomeFotoProfilo;
         }
@@ -124,19 +132,20 @@ public abstract class HandlerDocenteServlet extends HttpServlet {
 
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT id_sezione, nome_sezione, ordine "
                     + "FROM sezioni_docenti "
-                    + "WHERE id_docente = " + docente.getId() + " "
+                    + "WHERE id_docente = ? "
                     + "ORDER BY ordine");
+            preparedStatement.setString(1, docente.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 elencoSezioniPersonalizzate.addSezione(resultSet.getString("nome_sezione"), resultSet.getString("id_sezione"));
             }
 
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?
@@ -221,5 +230,3 @@ public abstract class HandlerDocenteServlet extends HttpServlet {
         return dipartimenti;
     }
 }
-
-

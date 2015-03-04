@@ -4,6 +4,7 @@
     Author     : Stefano
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page import="it.unimol.profiles.beans.utils.ElencoDocenti"%> 
 <%@page import="it.unimol.profiles.beans.utils.Docente"%>
 <%@page import="java.util.ArrayList"%>
@@ -38,7 +39,11 @@
                         out.print("<ul>");
                         for (int j = 0; j < elencoDocenti.getElencoDocenti().get(i).size(); j++) {
                             nomeDocente = elencoDocenti.getElencoDocenti().get(i).get(j).getCognome() + " " + elencoDocenti.getElencoDocenti().get(i).get(j).getNome();
-                            href = "InformazioniGeneraliDocente?id=" + elencoDocenti.getElencoDocenti().get(i).get(j).getId() + "&s=" + elencoDocenti.getElencoDocenti().get(i).get(j).getSesso() + "&nome=" + elencoDocenti.getElencoDocenti().get(i).get(j).getNome() + "&cognome=" + elencoDocenti.getElencoDocenti().get(i).get(j).getCognome();
+                            href = "InformazioniGeneraliDocente?"
+                                    + "id=" +  URLEncoder.encode(elencoDocenti.getElencoDocenti().get(i).get(j).getId(),"UTF-8")
+                                    + "&s=" + URLEncoder.encode(elencoDocenti.getElencoDocenti().get(i).get(j).getSesso(),"UTF-8")
+                                    + "&nome=" + URLEncoder.encode(elencoDocenti.getElencoDocenti().get(i).get(j).getNome(),"UTF-8")
+                                    + "&cognome=" + URLEncoder.encode(elencoDocenti.getElencoDocenti().get(i).get(j).getCognome(),"UTF-8");
                             out.print("<li><a href='" + href + "'>" + nomeDocente + "</a></li>");
                         }
                         out.print("</ul>");

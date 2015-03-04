@@ -44,9 +44,7 @@ public class Docente {
     }
     
     public String getNomeCartella() {
-        return this.getNome().toLowerCase() + "_"
-             + this.getCognome().toLowerCase() + "_"
-             + this.getId();
+        return this.getId();
     }
 
     public static Docente getStub() {

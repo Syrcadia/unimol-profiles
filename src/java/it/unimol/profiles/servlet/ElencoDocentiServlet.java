@@ -1,6 +1,6 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.beans.utils.ElencoDocenti;
@@ -76,7 +76,9 @@ public class ElencoDocentiServlet extends HttpServlet {
             
             resultSet = statement.executeQuery(""
                     + "SELECT docenti.id, docenti.nome, docenti.cognome, docenti.id_ruolo, docenti.id_pagina_insegnamenti, docenti.nome_foto_profilo, docenti.sesso, ruoli.nome_ruolo "
-                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
+                    + "FROM docenti INNER JOIN ruoli "
+                    + "ON docenti.id_ruolo = ruoli.id "
+                    + "ORDER BY docenti.cognome"
             );
             
             while(resultSet.next()){

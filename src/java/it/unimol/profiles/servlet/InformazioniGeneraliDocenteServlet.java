@@ -1,14 +1,14 @@
 package it.unimol.profiles.servlet;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente;
 import it.unimol.profiles.beans.utils.Docente;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,37 +41,40 @@ public class InformazioniGeneraliDocenteServlet extends SezioneServlet {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet;
-
-//            resultSet = statement.executeQuery(""
-//                    + "SELECT docenti.nome, docenti.cognome, docenti.dipartimento, ruoli.nome_ruolo "
-//                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
-//                    + "WHERE docenti.id = " + docente.getId());
-             resultSet = statement.executeQuery(""
+            PreparedStatement preparedStatement = connection.prepareStatement(""
                     + "SELECT docenti.nome, docenti.cognome, dipartimenti.nome_dipartimento, ruoli.nome_ruolo "
                     + "FROM ((docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id) INNER JOIN dipartimenti ON docenti.id_dipartimento = dipartimenti.id)"
-                    + "WHERE docenti.id = " + docente.getId());
+                    + "WHERE docenti.id = ?");
+            preparedStatement.setString(1, docente.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             informazioniGeneraliDocente.setNome(resultSet.getString("nome"));
             informazioniGeneraliDocente.setCognome(resultSet.getString("cognome"));
             informazioniGeneraliDocente.setDipartimento(resultSet.getString("nome_dipartimento"));
             informazioniGeneraliDocente.setRuolo(resultSet.getString("nome_ruolo"));
 
-            resultSet = statement.executeQuery(""
+            preparedStatement = connection.prepareStatement(""
                     + "SELECT email "
                     + "FROM email "
-                    + "WHERE id_docente = " + docente.getId());
+                    + "WHERE id_docente = ?");
+            preparedStatement.setString(1, docente.getId());
+            
+            resultSet = preparedStatement.executeQuery();
             ArrayList<String> emails = new ArrayList<>();
             while (resultSet.next()) {
                 emails.add(resultSet.getString("email"));
             }
             informazioniGeneraliDocente.setEmail(emails);
-
-            resultSet = statement.executeQuery(""
+            
+            preparedStatement = connection.prepareStatement(""
                     + "SELECT num_telefono "
                     + "FROM telefono "
-                    + "WHERE id_docente = " + docente.getId());
+                    + "WHERE id_docente = ?");
+            preparedStatement.setString(1, docente.getId());
+
+            resultSet = preparedStatement.executeQuery();
+            
             ArrayList<String> telefoni = new ArrayList<>();
             while (resultSet.next()) {
                 telefoni.add(resultSet.getString("num_telefono"));
@@ -79,7 +82,7 @@ public class InformazioniGeneraliDocenteServlet extends SezioneServlet {
             informazioniGeneraliDocente.setTelefono(telefoni);
 
             resultSet.close(); //non dimenticare 
-            statement.close(); //queste due istruzioni!!!
+            preparedStatement.close(); //queste due istruzioni!!!
         } catch (SQLException ex) {
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
             Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, "ERRORE DEL DATABASE, CONTROLLARE CHE SIA ATTIVO IL SERVIZIO MYSQL E CHE I PARAMETRI DELLA CLASSE ParametriDatabase SIANO IMPOSTATI CORRETTAMENTE"); //cosa fare in caso di errore del database?

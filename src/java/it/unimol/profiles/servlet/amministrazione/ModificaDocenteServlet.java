@@ -1,6 +1,6 @@
 package it.unimol.profiles.servlet.amministrazione;
 
-import it.unimol.profiles.ConnectionPool;
+import it.unimol.profiles.SQLLayer.ConnectionPool;
 import it.unimol.profiles.ManagerDocenti;
 import it.unimol.profiles.ManagerFileSystem;
 import it.unimol.profiles.beans.pagine.docente.InformazioniGeneraliDocente;
@@ -8,10 +8,11 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.beans.utils.ElencoDocenti;
 import it.unimol.profiles.exceptions.UploadNonValidoException;
 import it.unimol.profiles.servlet.InformazioniGeneraliDocenteServlet;
-import it.unimol.profiles.servlet.sviluppo.Log;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,15 +45,24 @@ public class ModificaDocenteServlet extends ServletAmministratore {
 
         if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
             for (Part part : request.getParts()) {
-                if ("action".equals(part.getName())) {
-                    Scanner scanner = new Scanner(part.getInputStream());
-                    action = scanner.nextLine();
-                } else if ("nome_docente".equals(part.getName())) {
-                    Scanner scanner = new Scanner(part.getInputStream());
-                    nomeDocente = scanner.nextLine();
-                } else if ("cognome_docente".equals(part.getName())) {
-                    Scanner scanner = new Scanner(part.getInputStream());
-                    cognomeDocente = scanner.nextLine();
+                if (null != part.getName()) {
+                    switch (part.getName()) {
+                        case "action": {
+                            Scanner scanner = new Scanner(part.getInputStream());
+                            action = scanner.nextLine();
+                            break;
+                        }
+                        case "nome_docente": {
+                            Scanner scanner = new Scanner(part.getInputStream());
+                            nomeDocente = scanner.nextLine();
+                            break;
+                        }
+                        case "cognome_docente": {
+                            Scanner scanner = new Scanner(part.getInputStream());
+                            cognomeDocente = scanner.nextLine();
+                            break;
+                        }
+                    }
                 }
             }
         } else {
@@ -62,103 +72,150 @@ public class ModificaDocenteServlet extends ServletAmministratore {
         if (action != null) {
 
             String idDocente = request.getParameter("id_docente");
-
             Connection connection = null;
+            PreparedStatement preparedStatement = null;
 
             try {
                 connection = ConnectionPool.getInstance().getConnection();
-                Statement statement = connection.createStatement();
+                
 
                 switch (action) {
                     case "aggiungi_indirizzo_email":
 
                         String newEmail = request.getParameter("email");
-
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "INSERT INTO email (email,id_docente) "
-                                + "VALUES ('" + newEmail + "','" + idDocente + "') ");
+                                + "VALUES (?,?) ");
+                        preparedStatement.setString(1, newEmail);
+                        preparedStatement.setString(2, idDocente);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
 
                     case "rimuovi_indirizzo_email":
 
                         String emailToDelete = request.getParameter("email");
-
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "DELETE FROM email "
-                                + "WHERE email='" + emailToDelete + "' "
-                                + "AND id_docente='" + idDocente + "' ");
+                                + "WHERE email=? "
+                                + "AND id_docente=? ");
+                        preparedStatement.setString(1, emailToDelete);
+                        preparedStatement.setString(2, idDocente);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "aggiungi_contatto_telefonico":
 
                         String newTelefono = request.getParameter("telefono");
 
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "INSERT INTO telefono (num_telefono,id_docente) "
-                                + "VALUES ('" + newTelefono + "','" + idDocente + "') ");
+                                + "VALUES (?,?) ");
+                        preparedStatement.setString(1, newTelefono);
+                        preparedStatement.setString(2, idDocente);
+                        
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "rimuovi_contatto_telefonico":
                         String telefonoToDelete = request.getParameter("contatti");
 
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "DELETE FROM telefono "
-                                + "WHERE num_telefono='" + telefonoToDelete + "' "
-                                + "AND id_docente='" + idDocente + "' ");
+                                + "WHERE num_telefono=? "
+                                + "AND id_docente=? ");
+                        preparedStatement.setString(1, telefonoToDelete);
+                        preparedStatement.setString(2, idDocente);
+                        
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "modifica_ruolo":
 
                         String idNuovoRuolo = request.getParameter("ruoli");
 
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "UPDATE docenti "
-                                + "SET id_ruolo='" + idNuovoRuolo + "' "
-                                + "WHERE id='" + idDocente + "' ");
+                                + "SET id_ruolo=? "
+                                + "WHERE id=? ");
+                        preparedStatement.setString(1, idNuovoRuolo);
+                        preparedStatement.setString(2, idDocente);
+                        
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "modifica_dipartimento":
 
                         String idNuovoDipartimento = request.getParameter("dipartimenti");
 
-                        statement.executeUpdate(""
+                        preparedStatement = connection.prepareStatement(""
                                 + "UPDATE docenti "
-                                + "SET id_dipartimento='" + idNuovoDipartimento + "' "
-                                + "WHERE id='" + idDocente + "' ");
+                                + "SET id_dipartimento=? "
+                                + "WHERE id=? ");
+                        preparedStatement.setString(1, idNuovoDipartimento);
+                        preparedStatement.setString(2, idDocente);
+                        
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "configura_pagina_insegnamenti":
 
                         String idPaginaInsegnamenti = request.getParameter("pagina_insegnamenti");
-
-                        statement.executeUpdate(""
+                        
+                        preparedStatement = connection.prepareStatement(""
                                 + "UPDATE docenti "
-                                + "SET id_pagina_insegnamenti='" + idPaginaInsegnamenti + "' "
-                                + "WHERE id='" + idDocente + "' ");
+                                + "SET id_pagina_insegnamenti=? "
+                                + "WHERE id=? ");
+                        preparedStatement.setString(1, idPaginaInsegnamenti);
+                        preparedStatement.setString(2, idDocente);
+
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
 
                         break;
                     case "modifica_curriculum":
-                        String percorsoFilePdf = "Risorse" + File.separator + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + "_" + idDocente + File.separator + "curriculum";
-                        String nomeFilePdf = "curriculum" + "_" + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + ".pdf";
+                        String percorsoFilePdf = "Risorse" + File.separator + idDocente + File.separator + "curriculum";
+                        String nomeFilePdf = "curriculum.pdf";
                         ManagerFileSystem.inserisciFile(request, percorsoFilePdf, nomeFilePdf);
-
                         break;
                     case "modifica_pubblicazioni":
-                        String percorsoFileBib = "Risorse" + File.separator + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + "_" + idDocente + File.separator + "pubblicazioni";
-                        String nomeFileBib = "pubblicazioni" + "_" + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + ".bib";
+                        String percorsoFileBib = "Risorse" + File.separator + idDocente + File.separator + "pubblicazioni";
+                        String nomeFileBib = "pubblicazioni.bib";
                         ManagerFileSystem.inserisciFile(request, percorsoFileBib, nomeFileBib);
-                        
-                        
 
                         break;
                     case "modifica_orario_di_ricevimento":
+                        String percorsoOrarioHtml = "Risorse" + File.separator + idDocente + File.separator + "orario_ricevimento";
+                        String nomeOrarioHtml = "orario_ricevimento.html";
+                        ManagerFileSystem.inserisciFile(request, percorsoOrarioHtml, nomeOrarioHtml);
+
+                        break;
+                    case "inserisci_sezione_personalizzata":
+                        String newSezione = request.getParameter("nome_sezione");
+                        preparedStatement = connection.prepareStatement(""
+                                + "INSERT INTO sezioni_docenti (id_docente,nome_sezione) "
+                                + "VALUES (?,?)");
+                        preparedStatement.setString(1, idDocente);
+                        preparedStatement.setString(2, newSezione);
+                        
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
+
                         break;
                     case "modifica_sezione_personalizzata":
+
+                        break;
+                    case "elimina_sezione_personalizzata":
+
                         break;
                     case "modifica_immagine_profilo":
-
-                        String percorsoFotoProfilo = "Risorse" + File.separator + nomeDocente.toLowerCase() + "_" + cognomeDocente.toLowerCase() + "_" + idDocente + File.separator + "foto_profilo";
+                        String percorsoFotoProfilo = "Risorse" + File.separator + idDocente + File.separator + "foto_profilo";
                         String nomeFotoProfilo = null;
                         for (Part part : request.getParts()) {
                             if ("file".equals(part.getName())) {
@@ -167,18 +224,20 @@ public class ModificaDocenteServlet extends ServletAmministratore {
                             }
                         }
                         ManagerFileSystem.inserisciFile(request, percorsoFotoProfilo, nomeFotoProfilo);
-                        
-                        statement.executeUpdate(""
+
+                        preparedStatement = connection.prepareStatement(""
                                 + "UPDATE docenti "
-                                + "SET nome_foto_profilo='" + nomeFotoProfilo + "' "
-                                + "WHERE id='" + idDocente + "' ");
-
+                                + "SET nome_foto_profilo=? "
+                                + "WHERE id=? ");
+                        preparedStatement.setString(1, nomeFotoProfilo);
+                        preparedStatement.setString(2, idDocente);
                         
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
+
                         break;
-
                 }
-
-                statement.close();
+                
 
             } catch (SQLException ex) {
                 Logger.getLogger(ManagerDocenti.class.getName()).log(Level.SEVERE, null, ex); //cosa fare in caso di errore del database?
@@ -250,7 +309,9 @@ public class ModificaDocenteServlet extends ServletAmministratore {
 
             resultSet = statement.executeQuery(""
                     + "SELECT docenti.id, docenti.nome, docenti.cognome, docenti.id_ruolo, docenti.id_pagina_insegnamenti, docenti.nome_foto_profilo, docenti.sesso, ruoli.nome_ruolo "
-                    + "FROM docenti INNER JOIN ruoli ON docenti.id_ruolo = ruoli.id "
+                    + "FROM docenti INNER JOIN ruoli "
+                    + "ON docenti.id_ruolo = ruoli.id "
+                    + "ORDER BY docenti.cognome"
             );
 
             while (resultSet.next()) {
@@ -288,5 +349,6 @@ public class ModificaDocenteServlet extends ServletAmministratore {
         request.setAttribute("elenco_docenti", elencoDocenti);
         dispatcher.forward(request, response);
     }
+    
 
 }

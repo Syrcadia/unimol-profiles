@@ -5,6 +5,8 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +34,12 @@ public class PubblicazioniDocenteServlet extends SezioneServlet {
         return "WEB-INF/Jsp/JspDocenti/PubblicazioniDocenteJsp.jsp";
     }
 
-    public PubblicazioniDocente getPubblicazioniDocente(Docente docente, String contextPath) throws RisorsaNonPresenteException {
+    public PubblicazioniDocente getPubblicazioniDocente(Docente docente, String contextPath) throws RisorsaNonPresenteException, UnsupportedEncodingException {
 
         PubblicazioniDocente pubblicazioniDocente = new PubblicazioniDocente();
-        String percorsoPubblicazioniBibTex = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/pubblicazioni/pubblicazioni_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".bib";
-
+        String percorsoPubblicazioniBibTex = "Risorse/" + docente.getId() + "/pubblicazioni/pubblicazioni.bib";
+        
+        
         File pubblicazioniBibTex = new File(contextPath + "/" + percorsoPubblicazioniBibTex);
 
         if (!(pubblicazioniBibTex.isFile())) {

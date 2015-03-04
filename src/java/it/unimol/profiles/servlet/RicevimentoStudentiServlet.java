@@ -5,6 +5,8 @@ import it.unimol.profiles.beans.utils.Docente;
 import it.unimol.profiles.exceptions.RisorsaNonPresenteException;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +34,10 @@ public class RicevimentoStudentiServlet extends SezioneServlet {
         return "WEB-INF/Jsp/JspDocenti/RicevimentoStudentiJsp.jsp";
     }
 
-    public RicevimentoStudenti getRicevimentoStudenti(Docente docente, String contextPath) throws RisorsaNonPresenteException {
+    public RicevimentoStudenti getRicevimentoStudenti(Docente docente, String contextPath) throws RisorsaNonPresenteException, UnsupportedEncodingException {
         RicevimentoStudenti ricevimentoStudenti = new RicevimentoStudenti();
-        String percorsoOrarioRicevimentoHtml = "Risorse/" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + "_" + docente.getId() + "/orario_ricevimento/orario_ricevimento_" + docente.getNome().toLowerCase() + "_" + docente.getCognome().toLowerCase() + ".html";
-
+        String percorsoOrarioRicevimentoHtml = "Risorse/" + docente.getId() + "/orario_ricevimento/orario_ricevimento.html";
+        
         File orarioRicevimentoHtml = new File(contextPath + "/" + percorsoOrarioRicevimentoHtml);
 
         if (!orarioRicevimentoHtml.isFile()) {
